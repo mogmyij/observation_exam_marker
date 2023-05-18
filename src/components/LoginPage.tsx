@@ -10,7 +10,7 @@ import {
   Container,
   Paper,
 } from "@mantine/core";
-import { idText } from "typescript";
+import ResultsDatabase from "../Services/ResultsDatabase";
 
 //returns true if string is alphanumeric
 function isAlphaNumeric(str: string): boolean {
@@ -40,17 +40,15 @@ function LoginPage(props: {
 
   //state to check if textInput is open so that tool tip can be displayed
   const [opened, setOpened] = useState(false);
-  //error states 0:no error, 1:missing name, 2:missing ID, 3:non-alphanumeric
-  const [error, setError] = useState(0);
 
   //add cadet to the database and begin the test
   const handleSubmit = (values: formType) => {
-
+    ResultsDatabase.addCadet(values);
   };
 
-  //handle errors 
+  //handle errors
   const handleErrors = (errors: formErrorType) => {
-    console.log("failed to begin test: ",errors);
+    console.log("failed to begin test: ", errors);
   };
 
   return (
@@ -65,6 +63,7 @@ function LoginPage(props: {
             <TextInput
               label="Rank and Name"
               {...form.getInputProps("name")}
+              variant="filled"
               required
             ></TextInput>
             <Tooltip
@@ -78,9 +77,10 @@ function LoginPage(props: {
               <TextInput
                 label="NRIC"
                 placeholder=""
+                {...form.getInputProps("id")}
+                variant="filled"
                 onFocus={() => setOpened(true)}
                 onBlur={() => setOpened(false)}
-                {...form.getInputProps("id")}
                 required
               ></TextInput>
             </Tooltip>
