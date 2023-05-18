@@ -17,7 +17,7 @@ function App() {
   const [currentUser, setUser] = useState<user>(new user("", ""));
 
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'light'}}>
       <LoginPage user={currentUser} setUser={setUser}></LoginPage>
     </MantineProvider>
   );

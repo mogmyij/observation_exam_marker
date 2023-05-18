@@ -2,19 +2,19 @@ import { useState } from "react";
 import { user } from "../App";
 import { useForm } from "@mantine/form";
 import {
-  Box,
   Button,
   TextInput,
   Tooltip,
   Header,
   Title,
-  Center,
   Container,
   Paper,
 } from "@mantine/core";
+import { idText } from "typescript";
 
+//returns true if string is alphanumeric
 function isAlphaNumeric(str: string): boolean {
-  const AlphaNumericRegex = new RegExp("/^[a-z0-9]+$/gi");
+  const AlphaNumericRegex = new RegExp("^[a-zA-Z0-9]*$");
   return AlphaNumericRegex.test(str);
 }
 
@@ -22,78 +22,72 @@ function LoginPage(props: {
   user: user;
   setUser: React.Dispatch<React.SetStateAction<user>>;
 }) {
-  const form = useForm();
-  type FormValues = typeof form.values;
+  //initialie form object and types
+  const form = useForm({
+    initialValues: {
+      name: "",
+      id: "",
+    },
+    validate: {
+      name: (value) =>
+        isAlphaNumeric(value) ? null : "Please only use numbers and letters",
+      id: (value) =>
+        isAlphaNumeric(value) ? null : "Please only use numbers and letters",
+    },
+  });
+  type formType = typeof form.values;
+  type formErrorType = typeof form.errors;
 
+  //state to check if textInput is open so that tool tip can be displayed
   const [opened, setOpened] = useState(false);
   //error states 0:no error, 1:missing name, 2:missing ID, 3:non-alphanumeric
   const [error, setError] = useState(0);
 
-  //function that displays error message
-  function displayError(error: Number): JSX.Element {
-    var errorMessage;
-    switch (error) {
-      case 1:
-        errorMessage = "Please Enter your Rank and Name";
-        break;
-      case 2:
-        errorMessage = "Please Enter your Masked NRIC";
-        break;
-      case 3:
-        errorMessage = "Please only use alpha-numeric characters";
-        break;
-    }
-
-    return <div className="errorMessage">error: {errorMessage}</div>;
-  }
-
   //add cadet to the database and begin the test
-  const addCadet = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = (values: formType) => {
 
-    //get the loginInfo from the submitted form
-    var data = new FormData(event.target as HTMLFormElement);
-    var name = data.get("name");
-    var id = data.get("id") !== null ? data.get("id") : "";
-    console.log(name, id);
+  };
 
-    if (data.get("name") == "") {
-      setError(1);
-      return;
-    }
-    if (data.get("id") == "") {
-      setError(2);
-      return;
-    }
-    setError(0);
+  //handle errors 
+  const handleErrors = (errors: formErrorType) => {
+    console.log("failed to begin test: ",errors);
   };
 
   return (
     <div>
-      <Header height={56} mb={50}>
+      <Header height={70} my={30}>
         <Title>Observation Level 1 assesment</Title>
       </Header>
       <Container size={420}>
         <Title>Enter Details to begin.</Title>
-        <Paper withBorder shadow="md" p={30} mt={30} radius={'md'}>
-          <TextInput label="Rank and Name" required></TextInput>
-          <Tooltip
-            label={"Enter masked NRIC"}
-            position="bottom-start"
-            withArrow
-            opened={opened}
-            transitionProps={{transition:"skew-up", duration:250}}
-            color="grey"
-          >
+        <Paper withBorder shadow="md" p={30} mt={30} radius={"md"}>
+          <form onSubmit={form.onSubmit(handleSubmit, handleErrors)}>
             <TextInput
-              label="NRIC"
-              placeholder=""
-              onFocus={() => setOpened(true)}
-              onBlur={() => setOpened(false)}
+              label="Rank and Name"
+              {...form.getInputProps("name")}
               required
             ></TextInput>
-          </Tooltip>
-          <Button mt={50}>Begin test!</Button>
+            <Tooltip
+              label={"Enter masked NRIC"}
+              position="bottom-start"
+              withArrow
+              opened={opened}
+              transitionProps={{ transition: "skew-up", duration: 250 }}
+              color="grey"
+            >
+              <TextInput
+                label="NRIC"
+                placeholder=""
+                onFocus={() => setOpened(true)}
+                onBlur={() => setOpened(false)}
+                {...form.getInputProps("id")}
+                required
+              ></TextInput>
+            </Tooltip>
+            <Button mt={50} type="submit">
+              Begin test!
+            </Button>
+          </form>
         </Paper>
       </Container>
     </div>
