@@ -5,7 +5,6 @@ import {
   Button,
   TextInput,
   Tooltip,
-  Header,
   Title,
   Container,
   Paper,
@@ -21,20 +20,23 @@ function isAlphaNumeric(str: string): boolean {
 function LoginPage(props: {
   user: user;
   setUser: React.Dispatch<React.SetStateAction<user>>;
+  setTestHasBegun: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   //initialie form object and types
   const form = useForm({
     initialValues: {
       name: "",
-      id: "",
+      nric: "",
     },
+    //ensure alphaNumeric values
     validate: {
       name: (value) =>
         isAlphaNumeric(value) ? null : "Please only use numbers and letters",
-      id: (value) =>
+      nric: (value) =>
         isAlphaNumeric(value) ? null : "Please only use numbers and letters",
     },
   });
+  //form type declaration
   type formType = typeof form.values;
   type formErrorType = typeof form.errors;
 
@@ -43,7 +45,12 @@ function LoginPage(props: {
 
   //add cadet to the database and begin the test
   const handleSubmit = (values: formType) => {
-    ResultsDatabase.addCadet(values);
+    //ensure consistancy in results by changing both name and nric to uppercaes 
+    values.name = values.name.toUpperCase();
+    values.nric = values.nric.toUpperCase();
+    ResultsDatabase.addCadet(values).then((response) => {
+      props.setTestHasBegun(true);
+    });
   };
 
   //handle errors
@@ -53,9 +60,6 @@ function LoginPage(props: {
 
   return (
     <div>
-      <Header height={70} my={30}>
-        <Title>Observation Level 1 assesment</Title>
-      </Header>
       <Container size={420}>
         <Title>Enter Details to begin.</Title>
         <Paper withBorder shadow="md" p={30} mt={30} radius={"md"}>
@@ -67,7 +71,7 @@ function LoginPage(props: {
               required
             ></TextInput>
             <Tooltip
-              label={"Enter masked NRIC"}
+              label={"Enter masked NRIC in (e.g. TXXXX000K) format"}
               position="bottom-start"
               withArrow
               opened={opened}
@@ -77,14 +81,19 @@ function LoginPage(props: {
               <TextInput
                 label="NRIC"
                 placeholder=""
-                {...form.getInputProps("id")}
+                {...form.getInputProps("nric")}
                 variant="filled"
                 onFocus={() => setOpened(true)}
                 onBlur={() => setOpened(false)}
                 required
               ></TextInput>
             </Tooltip>
-            <Button mt={50} type="submit">
+            <Button
+              mt={50}
+              type="submit"
+              variant="gradient"
+              gradient={{ from: "teal", to: "indigo" }}
+            >
               Begin test!
             </Button>
           </form>

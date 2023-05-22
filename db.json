@@ -2,15 +2,83 @@
   "cadets": [
     {
       "name": "test",
-      "id": "1"
+      "nric": "Txxxx999G",
+      "id": 1
     },
     {
-      "name": "luas",
-      "id": "21231"
+      "name": "test",
+      "id": 2,
+      "nric": "t002g"
+    },
+    {
+      "name": "test",
+      "id": 3,
+      "nric": "t002g"
+    },
+    {
+      "name": "lasd",
+      "nric": "kkkk",
+      "id": 4
+    },
+    {
+      "name": "asd",
+      "nric": "fff",
+      "id": 5
     },
     {
       "name": "dd",
-      "id": "d"
+      "nric": "ddsf",
+      "id": 6
+    },
+    {
+      "name": "asdfa",
+      "nric": "adsf",
+      "id": 7
+    },
+    {
+      "name": "asdfadsf",
+      "nric": "fasdfad",
+      "id": 8
+    },
+    {
+      "name": "asdfadfaslkjlkj",
+      "nric": "asdf",
+      "id": 9
+    },
+    {
+      "name": "ASDF",
+      "nric": "FFF",
+      "id": 10
+    },
+    {
+      "name": "ASDF",
+      "nric": "TXXXX888F",
+      "id": 11
+    },
+    {
+      "name": "D",
+      "nric": "F",
+      "id": 12
+    },
+    {
+      "name": "ASD",
+      "nric": "FF",
+      "id": 13
+    },
+    {
+      "name": "DD",
+      "nric": "DDF",
+      "id": 14
+    },
+    {
+      "name": "F",
+      "nric": "F",
+      "id": 15
+    },
+    {
+      "name": "ASD",
+      "nric": "JJJ",
+      "id": 16
     }
   ]
 }

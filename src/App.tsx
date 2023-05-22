@@ -1,7 +1,9 @@
-import { MantineProvider, Text } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import "./App.css";
 import { useState } from "react";
 import LoginPage from "./components/LoginPage";
+import AppHeader from "./components/AppHeader";
+import { Route, Routes } from "react-router-dom";
 
 export class user {
   name: string;
@@ -15,10 +17,27 @@ export class user {
 
 function App() {
   const [currentUser, setUser] = useState<user>(new user("", ""));
+  const [testHasBegun, setTestHasBegun] = useState<boolean>(false);
 
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'light'}}>
-      <LoginPage user={currentUser} setUser={setUser}></LoginPage>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{ colorScheme: "light" }}
+    >
+      <AppHeader testHasBegun={testHasBegun}></AppHeader>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LoginPage
+              user={currentUser}
+              setUser={setUser}
+              setTestHasBegun={setTestHasBegun}
+            ></LoginPage>
+          }
+        />
+      </Routes>
     </MantineProvider>
   );
 }

@@ -6,7 +6,7 @@ import { object } from "prop-types";
 const baseURL = "http://localhost:3001/cadets";
 
 const getCadet = () => {
-  axios
+  return axios
     .get(baseURL)
     .then((response) => {
       return response.data;
@@ -15,7 +15,7 @@ const getCadet = () => {
 };
 
 const addCadet = (cadetObject: object) => {
-  axios
+  return axios
     .post(baseURL, cadetObject)
     .then((response) => {
       console.log(response);
@@ -25,4 +25,4 @@ const addCadet = (cadetObject: object) => {
     });
 };
 
-export default { getCadet, addCadet};
+export default { getCadet, addCadet };
