@@ -3,21 +3,15 @@ import Countdown from "./Countdown";
 
 const AppHeader = (props: { testHasBegun: boolean }) => {
   return (
-    <div>
-      <Header height={70} my={30} display="flex">
-        <Group position="left">
-          <Title>Observation Level 1 Exam</Title>
-        </Group>
-        <Group position="right">
-          <Countdown
-            timerStarted={props.testHasBegun}
-            timerInSeconds={5400}
-            onExpiry={() => {
-              console.log("done");
-            }}
-          />
-        </Group>
-      </Header>
+    <div className="flex justify-between h-20 items-center border-solid border-b border-x-0 border-t-0">
+      <Title>Observation Level 1 Exam</Title>
+      <Countdown
+        timerStarted={props.testHasBegun}
+        timerInSeconds={5400}
+        onExpiry={() => {
+          console.log("done");
+        }}
+      />
     </div>
   );
 };

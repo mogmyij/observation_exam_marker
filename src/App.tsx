@@ -1,9 +1,9 @@
 import { MantineProvider } from "@mantine/core";
-import "./App.css";
 import { useState } from "react";
 import LoginPage from "./components/LoginPage";
 import AppHeader from "./components/AppHeader";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
+import QuestionOne from "./components/examPaper/QuestionOne";
 
 export class user {
   name: string;
@@ -25,19 +25,29 @@ function App() {
       withNormalizeCSS
       theme={{ colorScheme: "light" }}
     >
-      <AppHeader testHasBegun={testHasBegun}></AppHeader>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <LoginPage
-              user={currentUser}
-              setUser={setUser}
-              setTestHasBegun={setTestHasBegun}
-            ></LoginPage>
-          }
-        />
-      </Routes>
+      <div className="bg-baseWhite h-screen">
+        <AppHeader testHasBegun={testHasBegun}></AppHeader>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="my-10">
+                <LoginPage
+                  user={currentUser}
+                  setUser={setUser}
+                  setTestHasBegun={setTestHasBegun}
+                ></LoginPage>
+              </div>
+            }
+          />
+          <Route
+            path="/q1"
+            element={
+              testHasBegun ? <QuestionOne /> : <Navigate replace to={"/"} />
+            }
+          />
+        </Routes>
+      </div>
     </MantineProvider>
   );
 }

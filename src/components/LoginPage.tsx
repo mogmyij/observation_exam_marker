@@ -9,6 +9,7 @@ import {
   Container,
   Paper,
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import ResultsDatabase from "../Services/ResultsDatabase";
 
 //returns true if string is alphanumeric
@@ -40,16 +41,20 @@ function LoginPage(props: {
   type formType = typeof form.values;
   type formErrorType = typeof form.errors;
 
+  //setup Navigation hook
+  const navigate = useNavigate();
+
   //state to check if textInput is open so that tool tip can be displayed
   const [opened, setOpened] = useState(false);
 
   //add cadet to the database and begin the test
   const handleSubmit = (values: formType) => {
-    //ensure consistancy in results by changing both name and nric to uppercaes 
+    //ensure consistancy in results by changing both name and nric to uppercaes
     values.name = values.name.toUpperCase();
     values.nric = values.nric.toUpperCase();
     ResultsDatabase.addCadet(values).then((response) => {
       props.setTestHasBegun(true);
+      navigate("/q1");
     });
   };
 

@@ -1,4 +1,4 @@
-import { Alert, RingProgress, Text } from "@mantine/core";
+import { Alert, Paper, RingProgress, Text } from "@mantine/core";
 import { useState, useEffect } from "react";
 
 const secondsToHMS = (seconds: number): string => {
@@ -36,17 +36,22 @@ const Countdown = (props: {
   return (
     <>
       {props.timerStarted && (
-        <Alert title="Time Left:" radius="md" variant="light">
-          {secondsToHMS(secondsLeft)}
+        <div className="bg-cyan-200 rounded-lg flex items-center mx-3 px-3">
+          <div>
+            <h3 className="m-0">Time Left:</h3>
+            <Text>{secondsToHMS(secondsLeft)}</Text>
+          </div>
           <RingProgress
-            sections={[{ value: percentOfSecondsLeft, color: "blue" }]}
+            sections={[{ value: percentOfSecondsLeft, color: "#273043" }]}
             label={
-              <Text color="blue" weight={700} align="center" size="xl">
+              <Text color="#273043" weight={600} align="center" size="xs">
                 {percentOfSecondsLeft}%
               </Text>
             }
+            size={80}
+            className="inline-block"
           />
-        </Alert>
+        </div>
       )}
     </>
   );
