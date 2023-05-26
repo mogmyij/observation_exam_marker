@@ -1,5 +1,6 @@
 import { useForm } from "@mantine/form";
 import { List, TextInput, Text } from "@mantine/core";
+import TargetEngagementForm from "../TargetEngagementForm";
 
 const QuestionOne = () => {
   //init form
@@ -8,7 +9,7 @@ const QuestionOne = () => {
   });
 
   return (
-    <div className="w-1/2 m-auto">
+    <div className="w-1/2 m-auto bg-white p-8">
       <div className="flex-col">
         <h2 className="border-solid border-b border-x-0 border-t-0">
           Question 1 (40 Marks):
@@ -31,6 +32,7 @@ const QuestionOne = () => {
             </List>
           </List>
         </form>
+        <TargetEngagementForm/>
       </div>
     </div>
   );

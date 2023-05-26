@@ -16,6 +16,7 @@ export class user {
 }
 
 function App() {
+  //states that store logged in user data and if the test has started
   const [currentUser, setUser] = useState<user>(new user("", ""));
   const [testHasBegun, setTestHasBegun] = useState<boolean>(false);
 
@@ -25,7 +26,7 @@ function App() {
       withNormalizeCSS
       theme={{ colorScheme: "light" }}
     >
-      <div className="bg-baseWhite h-screen">
+      <div className="bg-baseWhite min-h-screen flex-grow pb-8">
         <AppHeader testHasBegun={testHasBegun}></AppHeader>
         <Routes>
           <Route
