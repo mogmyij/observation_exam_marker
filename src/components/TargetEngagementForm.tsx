@@ -1,47 +1,52 @@
-import { Group, Radio, Select, TextInput } from "@mantine/core";
+import { Group, Radio, Select, TextInput, Text } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
+import { TEFObj } from "../objects/TargetEngagementFormObj";
 
 const TargetEngagementForm = () => {
   //init form object
-  const form = useForm();
+  const form = useForm({
+    initialValues: {
+      ...TEFObj
+    },
+  });
 
   return (
     <div>
-      <h2 className="text-center">Target Engagement Form</h2>
+      <h2 className="Text-center">Target Engagement Form</h2>
       <form>
         <div className="grid grid-cols-32 h-auto overflow-visible">
           {/*row 1 (OP LOCATION)*/}
           <div className="col-span-16 border-solid border h-auto">
-            <text className="inline-block">OP Location & Grid:</text>
+            <Text className="inline-block">OP Location & Grid:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
           <div className="col-span-16 border-solid border h-auto">
-            <text className="inline-block">Target Code NO.:</text>
+            <Text className="inline-block">Target Code NO.:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
 
           {/*row 2*/}
           <div className="col-span-16 border-solid border h-auto">
-            <text className="inline-block">OP HT:</text>
+            <Text className="inline-block">OP HT:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
           <div className="col-span-16 border-solid border h-auto">
-            <text className="inline-block">OT Distance (KM):</text>
+            <Text className="inline-block">OT Distance (KM):</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
 
           {/*row 3 (INITIAL ORDERS)*/}
           <div className="col-span-full border-solid border h-auto bg-stone-400">
-            <text className="text-center block">INITIAL ORDERS</text>
+            <Text ta="center">INITIAL ORDERS</Text>
           </div>
 
           {/*row 4*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block">Call Sign:</text>
+            <Text className="inline-block">Call Sign:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
           <div className="col-span-19 border-solid border h-auto">
-            <text className="inline-block">Fire mission:</text>
+            <Text className="inline-block">Fire mission:</Text>
             <Select
               placeholder="Choose Type"
               data={[
@@ -63,28 +68,26 @@ const TargetEngagementForm = () => {
 
           {/*row 5 (TARGET LOCATION)*/}
           <div className="col-span-full border-solid border h-auto bg-stone-400">
-            <text className="text-center block">
-              TARGET LOCATION & DESCRIPTION
-            </text>
+            <Text ta="center">TARGET LOCATION & DESCRIPTION</Text>
           </div>
 
           {/*row 6*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block">Target Grid:</text>
+            <Text className="inline-block">Target Grid:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
           <div className="col-span-19 border-solid border h-auto">
-            <text className="inline-block">Alt:</text>
+            <Text className="inline-block">Alt:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
 
           {/*row 7*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block">DIR:</text>
+            <Text className="inline-block">DIR:</Text>
             <TextInput variant="unstyled" className="inline-block w-1/5" />
-            <text className="inline-block">DIST:</text>
+            <Text className="inline-block">DIST:</Text>
             <TextInput variant="unstyled" className="inline-block w-1/5" />
-            <text className="inline-block">VA:</text>
+            <Text className="inline-block">VA:</Text>
             <TextInput variant="unstyled" className="inline-block w-1/5" />
           </div>
           <div className="col-span-13 border-solid border h-auto">
@@ -126,7 +129,7 @@ const TargetEngagementForm = () => {
 
           {/*row 8*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block">AMMO:</text>
+            <Text className="inline-block">AMMO:</Text>
             <Select
               placeholder="Select Ammo"
               data={[
@@ -144,24 +147,24 @@ const TargetEngagementForm = () => {
             />
           </div>
           <div className="col-span-19 border-solid border h-auto">
-            <text className="inline-block">FUZE:</text>
+            <Text className="inline-block">FUZE:</Text>
           </div>
 
           {/*row 9*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block">MARK: LASER</text>
+            <Text className="inline-block">MARK: LASER</Text>
           </div>
           <div className="col-span-19 border-solid border h-auto">
-            <text className="inline-block">BTY/ PL SALVO RANGING</text>
+            <Text className="inline-block">BTY/ PL SALVO RANGING</Text>
           </div>
 
           {/*row 10 (TARGET DESCRIPTION)*/}
           <div className="col-span-26 border-solid border h-auto">
-            <text className="inline-block">TGT DESCRIPTION:</text>
+            <Text className="inline-block">TGT DESCRIPTION:</Text>
             <TextInput variant="unstyled" className="inline-block" />
           </div>
           <div className="col-span-6 border-solid border h-auto">
-            <text className="inline-block ">COVER:</text>
+            <Text className="inline-block ">COVER:</Text>
             <Select
               placeholder="Choose"
               data={[
@@ -183,38 +186,38 @@ const TargetEngagementForm = () => {
           {/*row 11 (METHOD OF ENGAGEMENT)*/}
           <div className="col-span-full border-solid border h-auto">
             <div className="col-span-full border-solid border h-auto bg-stone-400">
-              <text className="text-center block">METHOD OF ENGAGEMENT</text>
+              <Text ta="center">METHOD OF ENGAGEMENT</Text>
             </div>
           </div>
 
           {/*row 12*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block ">NO. OF AMMO:</text>
+            <Text className="inline-block ">NO. OF AMMO:</Text>
           </div>
           <div className="col-span-7 border-solid border h-auto">
-            <text className="inline-block ">POINT</text>
+            <Text className="inline-block ">POINT</Text>
           </div>
           <div className="col-span-6 border-solid border h-auto">
-            <text className="inline-block ">INTERVAL</text>
+            <Text className="inline-block ">INTERVAL</Text>
           </div>
           <div className="col-span-6 border-solid border h-auto">
-            <text className="inline-block ">SHEAF:</text>
+            <Text className="inline-block ">SHEAF:</Text>
           </div>
 
           {/*row 13*/}
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block ">
+            <Text className="inline-block ">
               TRAJECTORY: NOMINAL/VERTICAL/HIGH ANGLE
-            </text>
+            </Text>
           </div>
           <div className="col-span-13 border-solid border h-auto">
-            <text className="inline-block ">TFB:</text>
+            <Text className="inline-block ">TFB:</Text>
             <TextInput variant="unstyled" className="inline-block w-1/3" />
-            <text className="inline-block ">TFL:</text>
+            <Text className="inline-block ">TFL:</Text>
             <TextInput variant="unstyled" className="inline-block w-1/3" />
           </div>
           <div className="col-span-6 border-solid border h-auto">
-            <text className="inline-block ">WIND SPEED:</text>
+            <Text className="inline-block ">WIND SPEED:</Text>
           </div>
 
           {/*row 14 (MISSION TYPE)*/}
@@ -232,23 +235,23 @@ const TargetEngagementForm = () => {
 
           {/*row 15 (CHECK)*/}
           <div className="col-span-26 border-solid border h-auto">
-            <text className="inline-block ">CHECK: </text>
-            <text className="inline-block ">PE</text>
+            <Text className="inline-block ">CHECK: </Text>
+            <Text className="inline-block ">PE</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block ">/ ANGLE T</text>
+            <Text className="inline-block ">/ ANGLE T</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block ">
+            <Text className="inline-block ">
               / TIME OF FLIGHT / SPLASH AND COUNTDOWN
-            </text>
+            </Text>
           </div>
           <div className="col-span-6 border-solid border h-auto">
-            <text className="inline-block ">ADDN:</text>
+            <Text className="inline-block ">ADDN:</Text>
           </div>
 
           {/*row 16*/}
           <div className="col-span-full border-solid border h-auto">
             <div className="col-span-full border-solid border h-auto bg-stone-400">
-              <text className="text-center block">METHOD OF ENGAGEMENT</text>
+              <Text ta="center">METHOD OF ENGAGEMENT</Text>
             </div>
           </div>
 
@@ -263,73 +266,73 @@ const TargetEngagementForm = () => {
             </Radio.Group>
           </div>
           <div className="col-span-10 border-solid border h-auto">
-            <text className="inline-block ">ADVISE WHEN READY</text>
+            <Text className="inline-block ">ADVISE WHEN READY</Text>
           </div>
           <div className="col-span-9 border-solid border h-auto">
-            <text className="inline-block ">ADDN:</text>
+            <Text className="inline-block ">ADDN:</Text>
           </div>
 
           {/*row 18 (Skip MPI DATA row) */}
           <div className="col-span-1 row-span-3 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">RD</text>
+            <Text ta="center">RD</Text>
           </div>
           <div className="col-span-6 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">MPI DATA</text>
+            <Text ta="center">MPI DATA</Text>
           </div>
           <div className="col-span-6 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">VECTOR RANGING</text>
+            <Text ta="center">VECTOR RANGING</Text>
           </div>
           <div className="col-span-19 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">METHOD OF ENGAGEMENT</text>
+            <Text ta="center">METHOD OF ENGAGEMENT</Text>
           </div>
 
           {/*row 19 (Skip U / D Column ) */}
           <div className="col-span-2  row-span-2 border-solid border h-auto">
-            <text className="text-center block ">DIR</text>
+            <Text ta="center">DIR</Text>
           </div>
           <div className="col-span-2  row-span-2 border-solid border h-auto">
-            <text className="text-center block ">DIST</text>
+            <Text ta="center">DIST</Text>
           </div>
           <div className="col-span-2  row-span-2 border-solid border h-auto">
-            <text className="text-center block ">VA</text>
+            <Text ta="center">VA</Text>
           </div>
           <div className="col-span-2  row-span-2 border-solid border h-auto">
-            <text className="text-center block ">DIR</text>
+            <Text ta="center">DIR</Text>
           </div>
           <div className="col-span-2 row-span-2  border-solid border h-auto">
-            <text className="text-center block ">DIST</text>
+            <Text ta="center">DIST</Text>
           </div>
           <div className="col-span-2  row-span-2 border-solid border h-auto">
-            <text className="text-center block ">VA</text>
+            <Text ta="center">VA</Text>
           </div>
           <div className="col-span-5 border-solid border h-auto">
-            <text className="text-center block ">OBSERVATION</text>
+            <Text ta="center">OBSERVATION</Text>
           </div>
           <div className="col-span-2 row-span-2 border-solid border h-auto">
-            <text className="text-center block ">AMMO</text>
+            <Text ta="center">AMMO</Text>
           </div>
           <div className="col-span-2 row-span-2 border-solid border h-auto">
-            <text className="text-center block ">FUZE</text>
+            <Text ta="center">FUZE</Text>
           </div>
           <div className="col-span-2 row-span-2 border-solid border h-auto">
-            <text className="text-center block ">DIR</text>
+            <Text ta="center">DIR</Text>
           </div>
           <div className="col-span-2 row-span-2 border-solid border h-auto">
-            <text className="text-center block ">L / R</text>
+            <Text ta="center">L / R</Text>
           </div>
           <div className="col-span-2 row-span-2 border-solid border h-auto">
-            <text className="text-center block ">A / D</text>
+            <Text ta="center">A / D</Text>
           </div>
           <div className="col-span-4 row-span-2 border-solid border h-auto">
-            <text className="text-center block ">ADDN / FFE</text>
+            <Text ta="center">ADDN / FFE</Text>
           </div>
 
           {/*row 20 */}
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block ">L / R</text>
+            <Text ta="center">L / R</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto">
-            <text className="text-center block ">S / L</text>
+            <Text ta="center">S / L</Text>
           </div>
 
           {/*row 21-34 PR has the most rows in ANS sheet (10 rows) 
@@ -1263,33 +1266,33 @@ const TargetEngagementForm = () => {
           {/*row 35 PR Adjustments */}
           <div className="col-span-full border-solid border h-auto">
             <div className="col-span-full border-solid border h-auto bg-stone-400">
-              <text className="text-center block">
+              <Text ta="center">
                 PRECISION REGISTRATION REFINEMENT CORRECTIONS
-              </text>
+              </Text>
             </div>
           </div>
 
           {/*row 36*/}
           <div className="col-span-20 row-span-6 border-solid border h-auto"></div>
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">S/N</text>
+            <Text ta="center">S/N</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">RD</text>
+            <Text ta="center">RD</Text>
           </div>
           <div className="col-span-4 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">L/R (MILS)</text>
+            <Text ta="center">L/R (MILS)</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">L/S </text>
+            <Text ta="center">L/S </Text>
           </div>
 
           {/*row 37*/}
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">P1</text>
+            <Text ta="center">P1</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block ">1</text>
+            <Text ta="center">1</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto">
             <TextInput variant="unstyled" className="inline-block" />
@@ -1303,10 +1306,10 @@ const TargetEngagementForm = () => {
 
           {/*row 38*/}
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">P2</text>
+            <Text ta="center">P2</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block ">2</text>
+            <Text ta="center">2</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto">
             <TextInput variant="unstyled" className="inline-block" />
@@ -1320,10 +1323,10 @@ const TargetEngagementForm = () => {
 
           {/*row 39*/}
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">P3</text>
+            <Text ta="center">P3</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block ">3</text>
+            <Text ta="center">3</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto">
             <TextInput variant="unstyled" className="inline-block" />
@@ -1337,10 +1340,10 @@ const TargetEngagementForm = () => {
 
           {/*row 40*/}
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">P4</text>
+            <Text ta="center">P4</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block ">4</text>
+            <Text ta="center">4</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto">
             <TextInput variant="unstyled" className="inline-block" />
@@ -1354,40 +1357,42 @@ const TargetEngagementForm = () => {
 
           {/*row 41*/}
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block ">P5</text>
+            <Text ta="center">P5</Text>
           </div>
-          <div className="col-span-3 text-center border-solid border h-auto">
-            <text className="inline-block">TOTAL </text>
+          <div className="col-span-3 Text-center border-solid border h-auto">
+            <Text ta="center">TOTAL </Text>
           </div>
           <div className="col-span-4 border-solid border h-auto">
-            <text className="inline-block">LEFT: </text>
+            <Text className="inline-block">LEFT: </Text>
             <TextInput variant="unstyled" className="inline-block w-1/2" />
           </div>
           <div className="col-span-3 row-span-5 border-solid border h-auto bg-gray-800"></div>
 
           {/*row 42*/}
           <div className="col-span-20 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">HASTY FIREPLAN</text>
+            <Text ta="center">HASTY FIREPLAN</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto bg-stone-400"></div>
           <div className="col-span-3 border-solid border h-auto"></div>
           <div className="col-span-4 border-solid border h-auto">
-            <text className="inline-block">RIGHT: </text>
+            <Text className="inline-block">RIGHT: </Text>
             <TextInput variant="unstyled" className="inline-block w-1/2" />
           </div>
 
           {/*row 43*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/5" />
-            <text className="inline-block">, ESTAB NEUT ON TARGET</text>
+            <Text className="inline-block">, ESTAB NEUT ON TARGET</Text>
             <TextInput variant="unstyled" className="inline-block w-1/5" />
           </div>
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">P6</text>
+            <Text ta="center">P6</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block text-xs">NO. OF ROUNDS</text>
+            <Text ta="center" fz="xs">
+              NO. OF ROUNDS
+            </Text>
           </div>
           <div className="col-span-4 border-solid border h-auto">
             <TextInput variant="unstyled" className="inline-block" />
@@ -1395,76 +1400,82 @@ const TargetEngagementForm = () => {
 
           {/*row 44*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">, ENGAGE TARGET</text>
+            <Text className="inline-block">, ENGAGE TARGET</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">WITH</text>
+            <Text className="inline-block">WITH</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">PART RENEWAL</text>
+            <Text className="inline-block">PART RENEWAL</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">P7</text>
+            <Text ta="center">P7</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block text-xs">MEAN</text>
+            <Text ta="center" fz="sm">
+              MEAN
+            </Text>
           </div>
           <div className="col-span-4 border-solid border h-auto">
-            <text className="inline-block">RIGHT: </text>
+            <Text className="inline-block">RIGHT: </Text>
             <TextInput variant="unstyled" className="inline-block w-1/2" />
           </div>
 
           {/*row 45*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">, ENGAGE TARGET</text>
+            <Text className="inline-block">, ENGAGE TARGET</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">WITH</text>
+            <Text className="inline-block">WITH</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">RDS/BOMBS</text>
+            <Text className="inline-block">RDS/BOMBS</Text>
           </div>
           <div className="col-span-2 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">P8</text>
+            <Text ta="center">P8</Text>
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="text-center block text-xs">OT FACTOR</text>
+            <Text ta="center" fz="sm">
+              OT FACTOR
+            </Text>
           </div>
           <div className="col-span-4 border-solid border h-auto">
-            <text className="inline-block">RIGHT: </text>
+            <Text className="inline-block">RIGHT: </Text>
             <TextInput variant="unstyled" className="inline-block w-1/2" />
           </div>
 
           {/*row 46*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">, HARASSING FIRES ON TGT</text>
+            <Text className="inline-block">, HARASSING FIRES ON TGT</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">FOR</text>
+            <Text className="inline-block">FOR</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">MINS</text>
+            <Text className="inline-block">MINS</Text>
           </div>
           <div className="col-span-2 row-span-3 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">P9</text>
+            <Text ta="center">P9</Text>
           </div>
           <div className="col-span-3 row-span-3 border-solid border h-auto">
-            <text className="text-center block text-xs">FINAL REFINEMENT ORDERS</text>
+            <Text ta="center" fz="sm">
+              FINAL REFINEMENT ORDERS
+            </Text>
           </div>
           <div className="col-span-4 border-solid border h-auto">
-            <text className="inline-block pl-2">L</text>
+            <Text className="inline-block pl-2">L</Text>
             <TextInput variant="unstyled" className="inline-block w-2/3" />
           </div>
           <div className="col-span-3 border-solid border h-auto">
-            <text className="inline-block pl-2">R</text>
+            <Text className="inline-block pl-2">R</Text>
             <TextInput variant="unstyled" className="inline-block w-2/3" />
           </div>
 
           {/*row 47*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">RDS SMK TGT ON TGT</text>
+            <Text className="inline-block">RDS SMK TGT ON TGT</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
           </div>
           <div className="col-span-7 row-span-2 border-solid border h-auto">
@@ -1491,32 +1502,31 @@ const TargetEngagementForm = () => {
               </Group>
             </Radio.Group>
           </div>
-          
+
           {/*row 48*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">SMK SCR ON TGT</text>
+            <Text className="inline-block">SMK SCR ON TGT</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">FOR</text>
+            <Text className="inline-block">FOR</Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">MINS</text>
+            <Text className="inline-block">MINS</Text>
           </div>
 
           {/*row 48*/}
           <div className="col-span-20 border-solid border h-auto">
-            <text className="inline-block">ON ACT. CODE </text>
+            <Text className="inline-block">ON ACT. CODE </Text>
             <TextInput variant="unstyled" className="inline-block w-1/12" />
-            <text className="inline-block">MINS ILLUM ON TGT</text>
+            <Text className="inline-block">MINS ILLUM ON TGT</Text>
           </div>
           <div className="col-span-2 row-span-3 border-solid border h-auto bg-stone-400">
-            <text className="text-center block">P10</text>
+            <Text ta="center">P10</Text>
           </div>
           <div className="col-span-10 border-solid border h-auto">
-            <text className="inline-block pl-2">RECORD AS PR PT: </text>
+            <Text className="inline-block pl-2">RECORD AS PR PT: </Text>
             <TextInput variant="unstyled" className="inline-block w-1/3" />
           </div>
-          
         </div>
       </form>
     </div>
