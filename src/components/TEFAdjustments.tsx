@@ -7,6 +7,7 @@ import {
 const TEFAdjustments = (props: {
 	onAdjustmentUpdate: Function;
 	TEFAdjustmentState: TEFInitialValuesType;
+	onSelectElementAdjustmentUpdate: Function;
 	rowNumber: number;
 }) => {
 	const rowNumberString = props.rowNumber.toString();
@@ -100,9 +101,8 @@ const TEFAdjustments = (props: {
 					variant="unstyled"
 					className="inline-block"
 					clearable
-					onChange={(event) => props.onAdjustmentUpdate(event)}
+					onChange={e=>props.onSelectElementAdjustmentUpdate(e,"AmmoCorrection" + rowNumberString)}
 					value={AdjustmentRow.AmmoCorrection}
-					name={"AmmoCorrection" + rowNumberString}
 				/>
 			</div>
 			<div className="col-span-2 border-solid border h-auto"></div>
@@ -149,6 +149,8 @@ const TEFAdjustments = (props: {
 					variant="unstyled"
 					className="inline-block"
 					clearable
+					onChange={e=>props.onSelectElementAdjustmentUpdate(e,"AdditionalCorrection" + rowNumberString)}
+					value={AdjustmentRow.AdditionalCorrection}
 				/>
 			</div>
 		</>
