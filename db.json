@@ -359,6 +359,31 @@
       "name": "HELLO",
       "nric": "T0234567C",
       "id": 72
+    },
+    {
+      "name": "ASDFLKJ",
+      "nric": "JLKJ",
+      "id": 73
+    },
+    {
+      "name": "ADF",
+      "nric": "JKL",
+      "id": 74
+    },
+    {
+      "name": "ALDFKJ",
+      "nric": "LAKSDF",
+      "id": 75
+    },
+    {
+      "name": "ADF",
+      "nric": "LLLLLL",
+      "id": 76
+    },
+    {
+      "name": "ASDF",
+      "nric": "LK",
+      "id": 77
     }
   ]
 }

@@ -1,12 +1,33 @@
 import { Group, Radio, Select, TextInput, Text } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
-import { TEFObj } from "../objects/TargetEngagementFormObj";
+import { TEFInitialValues } from "../objects/TargetEngagementFormObj";
+import TEFAdjustments from "./TEFAdjustments";
+import { useReducer } from "react";
+import {
+  TEFCorrectionReducer,
+  ActionEnum,
+} from "../reducers/TEFCorrectionReducer";
 
 const TargetEngagementForm = () => {
+  //useReducer for TEF adjustments
+  const [TEFAdjustmentState, TEFAdjustmentDispatcher] = useReducer(
+    TEFCorrectionReducer,
+    TEFInitialValues
+  );
+  //function that uses dispatcher function obtained from reducer to update the state
+  //each time the input box is updated
+  const onAdjustmentUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    TEFAdjustmentDispatcher({
+      type: ActionEnum.updateState,
+      name: event.target.name,
+      payload: event.target.value,
+    });
+  };
+
   //init form object
   const form = useForm({
     initialValues: {
-      ...TEFObj
+      ...TEFInitialValues,
     },
   });
 
@@ -18,7 +39,11 @@ const TargetEngagementForm = () => {
           {/*row 1 (OP LOCATION)*/}
           <div className="col-span-16 border-solid border h-auto">
             <Text className="inline-block">OP Location & Grid:</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("OPLocation")}
+            />
           </div>
           <div className="col-span-16 border-solid border h-auto">
             <Text className="inline-block">Target Code NO.:</Text>
@@ -28,11 +53,19 @@ const TargetEngagementForm = () => {
           {/*row 2*/}
           <div className="col-span-16 border-solid border h-auto">
             <Text className="inline-block">OP HT:</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("OPHeight")}
+            />
           </div>
           <div className="col-span-16 border-solid border h-auto">
             <Text className="inline-block">OT Distance (KM):</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("OTDistance")}
+            />
           </div>
 
           {/*row 3 (INITIAL ORDERS)*/}
@@ -43,7 +76,11 @@ const TargetEngagementForm = () => {
           {/*row 4*/}
           <div className="col-span-13 border-solid border h-auto">
             <Text className="inline-block">Call Sign:</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("CallSign")}
+            />
           </div>
           <div className="col-span-19 border-solid border h-auto">
             <Text className="inline-block">Fire mission:</Text>
@@ -63,6 +100,7 @@ const TargetEngagementForm = () => {
               variant="unstyled"
               className="inline-block"
               clearable
+              {...form.getInputProps("FireMission")}
             />
           </div>
 
@@ -74,19 +112,35 @@ const TargetEngagementForm = () => {
           {/*row 6*/}
           <div className="col-span-13 border-solid border h-auto">
             <Text className="inline-block">Target Grid:</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("TargetGrid")}
+            />
           </div>
           <div className="col-span-19 border-solid border h-auto">
             <Text className="inline-block">Alt:</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("TargetGrid")}
+            />
           </div>
 
           {/*row 7*/}
           <div className="col-span-13 border-solid border h-auto">
             <Text className="inline-block">DIR:</Text>
-            <TextInput variant="unstyled" className="inline-block w-1/5" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block w-1/5"
+              {...form.getInputProps("TargetGrid")}
+            />
             <Text className="inline-block">DIST:</Text>
-            <TextInput variant="unstyled" className="inline-block w-1/5" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block w-1/5"
+              {...form.getInputProps("TargetGrid")}
+            />
             <Text className="inline-block">VA:</Text>
             <TextInput variant="unstyled" className="inline-block w-1/5" />
           </div>
@@ -105,12 +159,17 @@ const TargetEngagementForm = () => {
               variant="unstyled"
               className="inline-block w-1/3"
               clearable
+              {...form.getInputProps("LRInitialAdjustment")}
             />
-            <TextInput variant="default" className="inline-block w-1/3" />
+            <TextInput
+              variant="default"
+              className="inline-block w-1/3"
+              {...form.getInputProps("LRInitialAdjustment")}
+            />
           </div>
           <div className="col-span-6 border-solid border h-auto">
             <Select
-              placeholder="Add/Drop"
+              placeholder="ADD/DROP"
               data={[
                 { value: "ADD", label: "Add" },
                 { value: "DROP", label: "Drop" },
@@ -123,8 +182,13 @@ const TargetEngagementForm = () => {
               variant="unstyled"
               className="inline-block w-2/3"
               clearable
+              {...form.getInputProps("ADInitialDirection")}
             />
-            <TextInput variant="default" className="inline-block w-1/3" />
+            <TextInput
+              variant="default"
+              className="inline-block w-1/3"
+              {...form.getInputProps("ADInitialAdjustment")}
+            />
           </div>
 
           {/*row 8*/}
@@ -144,6 +208,7 @@ const TargetEngagementForm = () => {
               variant="unstyled"
               className="inline-block w-1/3"
               clearable
+              {...form.getInputProps("Ammo")}
             />
           </div>
           <div className="col-span-19 border-solid border h-auto">
@@ -161,7 +226,11 @@ const TargetEngagementForm = () => {
           {/*row 10 (TARGET DESCRIPTION)*/}
           <div className="col-span-26 border-solid border h-auto">
             <Text className="inline-block">TGT DESCRIPTION:</Text>
-            <TextInput variant="unstyled" className="inline-block" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block"
+              {...form.getInputProps("TargetDescription")}
+            />
           </div>
           <div className="col-span-6 border-solid border h-auto">
             <Text className="inline-block ">COVER:</Text>
@@ -180,6 +249,7 @@ const TargetEngagementForm = () => {
               variant="unstyled"
               className="inline-block w-3/5"
               clearable
+              {...form.getInputProps("Vegetation")}
             />
           </div>
 
@@ -212,9 +282,17 @@ const TargetEngagementForm = () => {
           </div>
           <div className="col-span-13 border-solid border h-auto">
             <Text className="inline-block ">TFB:</Text>
-            <TextInput variant="unstyled" className="inline-block w-1/3" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block w-1/3"
+              {...form.getInputProps("TargetFrontBearing")}
+            />
             <Text className="inline-block ">TFL:</Text>
-            <TextInput variant="unstyled" className="inline-block w-1/3" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block w-1/3"
+              {...form.getInputProps("TargetFrontLength")}
+            />
           </div>
           <div className="col-span-6 border-solid border h-auto">
             <Text className="inline-block ">WIND SPEED:</Text>
@@ -222,7 +300,7 @@ const TargetEngagementForm = () => {
 
           {/*row 14 (MISSION TYPE)*/}
           <div className="col-span-full border-solid border h-auto">
-            <Radio.Group>
+            <Radio.Group {...form.getInputProps("MissionType")}>
               <Group>
                 <Radio value="PR" label="PRECISION REGISTRATION"></Radio>
                 <Radio value="MPI" label="MPI REGISTRATION"></Radio>
@@ -237,9 +315,17 @@ const TargetEngagementForm = () => {
           <div className="col-span-26 border-solid border h-auto">
             <Text className="inline-block ">CHECK: </Text>
             <Text className="inline-block ">PE</Text>
-            <TextInput variant="unstyled" className="inline-block w-1/12" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block w-1/12"
+              {...form.getInputProps("CheckPE")}
+            />
             <Text className="inline-block ">/ ANGLE T</Text>
-            <TextInput variant="unstyled" className="inline-block w-1/12" />
+            <TextInput
+              variant="unstyled"
+              className="inline-block w-1/12"
+              {...form.getInputProps("CheckAngleT")}
+            />
             <Text className="inline-block ">
               / TIME OF FLIGHT / SPLASH AND COUNTDOWN
             </Text>
@@ -257,7 +343,7 @@ const TargetEngagementForm = () => {
 
           {/*row 17(AMC/FIRE)*/}
           <div className="col-span-13 border-solid border h-auto">
-            <Radio.Group>
+            <Radio.Group {...form.getInputProps("MethodOfFireControl")}>
               <Group>
                 <Radio size="xs" value="AMC" label="AT MY COMMAND"></Radio>
                 <Radio size="xs" value="FIRE" label="FIRE"></Radio>
@@ -337,931 +423,19 @@ const TargetEngagementForm = () => {
 
           {/*row 21-34 PR has the most rows in ANS sheet (10 rows) 
           so we have 13 blank rows for users to fill */}
-          <>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-1  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto"></div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-3 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2 border-solid border h-auto">
-              <Select
-                data={[
-                  { value: "WP", label: "WP" },
-                  { value: "HE", label: "HE" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto"></div>
-            <div className="col-span-2 border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-2  border-solid border h-auto">
-              <TextInput variant="unstyled" className="inline-block w-full" />
-            </div>
-            <div className="col-span-4  border-solid border h-auto">
-              <Select
-                placeholder=""
-                data={[
-                  { value: "EN", label: "ESTAB NEUT" },
-                  { value: "REPEAT", label: "REPEAT" },
-                  { value: "OBS", label: "ABLE TO OBS" },
-                  { value: "3RGF", label: "3RGF, 30s" },
-                  { value: "2RGF", label: "2RGF, 30s" },
-                  { value: "1RGF", label: "1RGF" },
-                  { value: "PRP", label: "REC AS PR PT" },
-                  { value: "RAT", label: "REC AS TARGET" },
-                  { value: "EOM", label: "VGS, EOM" },
-                  { value: "EOVR", label: "EOVR" },
-                  { value: "EOPR", label: "EOPR" },
-                ]}
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                variant="unstyled"
-                className="inline-block"
-                clearable
-              />
-            </div>
-          </>
+          <TEFAdjustments rowNumber={1} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={2} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={3} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={4} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={5} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={6} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={7} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={8} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={9} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={10} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={11} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={12} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
+          <TEFAdjustments rowNumber={13} TEFAdjustmentState={TEFAdjustmentState} onAdjustmentUpdate={onAdjustmentUpdate}></TEFAdjustments>
 
           {/*row 35 PR Adjustments */}
           <div className="col-span-full border-solid border h-auto">
@@ -1520,7 +694,7 @@ const TargetEngagementForm = () => {
             <TextInput variant="unstyled" className="inline-block w-1/12" />
             <Text className="inline-block">MINS ILLUM ON TGT</Text>
           </div>
-          <div className="col-span-2 row-span-3 border-solid border h-auto bg-stone-400">
+          <div className="col-span-2 border-solid border h-auto bg-stone-400">
             <Text ta="center">P10</Text>
           </div>
           <div className="col-span-10 border-solid border h-auto">
