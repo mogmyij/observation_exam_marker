@@ -7,7 +7,7 @@ export enum ActionEnum {
 export type Action = {
   type: ActionEnum;
   name: string;
-  payload: string;
+  payload: string | null;
 };
 
 export const TEFCorrectionReducer = (

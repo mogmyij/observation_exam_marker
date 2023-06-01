@@ -1,5 +1,4 @@
-import { Group, Radio, Select, TextInput, Text } from "@mantine/core";
-import { Form, useForm } from "@mantine/form";
+import { Group, Select, TextInput, Text, Checkbox } from "@mantine/core";
 import { TEFInitialValues } from "../objects/TargetEngagementFormObj";
 import TEFAdjustments from "./TEFAdjustments";
 import { useReducer } from "react";
@@ -7,23 +6,46 @@ import {
 	TEFCorrectionReducer,
 	ActionEnum,
 } from "../reducers/TEFCorrectionReducer";
+import { CheckboxGroup } from "@mantine/core/lib/Checkbox/CheckboxGroup/CheckboxGroup";
 
 const TargetEngagementForm = () => {
-	//useReducer for TEF adjustments
+	//useReducer for TEF adjustment rows
 	const [TEFAdjustmentState, TEFAdjustmentDispatcher] = useReducer(
 		TEFCorrectionReducer,
 		TEFInitialValues
 	);
 	//function that uses dispatcher function obtained from reducer to update the state
 	//each time the input box is updated
-	const onAdjustmentUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const onFormUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
 		TEFAdjustmentDispatcher({
 			type: ActionEnum.updateState,
 			name: event.target.name,
 			payload: event.target.value,
 		});
 	};
-	const onSelectElementAdjustmentUpdate = (value: string, name: string) => {
+	//same as above function just that for the select boxes because the onChange callback
+	//is modified by mantine so it does not produce original behaviour
+	const onSelectElementFormUpdate = (value: string | null, name: string) => {
+		TEFAdjustmentDispatcher({
+			type: ActionEnum.updateState,
+			name: name,
+			payload: value,
+		});
+	};
+	//Same as other functions just that for checkbox they return a string array
+	const onCheckboxElementFormUpdate = (
+		valueArray: string[] | null,
+		name: string
+	) => {
+		var value: string | null;
+		if (valueArray?.length === 0) {
+			value = null;
+		}
+		//use index 1 because index 0 will be the previous option and therefore
+		//will not change the value if used
+		else {
+			value = valueArray![1];
+		}
 		TEFAdjustmentDispatcher({
 			type: ActionEnum.updateState,
 			name: name,
@@ -32,12 +54,6 @@ const TargetEngagementForm = () => {
 	};
 
 	//init form object
-	const form = useForm({
-		initialValues: {
-			...TEFInitialValues,
-		},
-	});
-
 	return (
 		<div>
 			<h2 className="Text-center">Target Engagement Form</h2>
@@ -49,7 +65,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("OPLocation")}
+							name="OPLocation"
+							value={TEFAdjustmentState.OPLocation}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-16 border-solid border h-auto">
@@ -63,7 +81,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("OPHeight")}
+							name="OPHeight"
+							value={TEFAdjustmentState.OPHeight}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-16 border-solid border h-auto">
@@ -71,7 +91,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("OTDistance")}
+							name="OTDistance"
+							value={TEFAdjustmentState.OTDistance}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 
@@ -86,7 +108,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("CallSign")}
+							name="CallSign"
+							value={TEFAdjustmentState.CallSign}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-19 border-solid border h-auto">
@@ -107,7 +131,8 @@ const TargetEngagementForm = () => {
 							variant="unstyled"
 							className="inline-block"
 							clearable
-							{...form.getInputProps("FireMission")}
+							value={TEFAdjustmentState.FireMission}
+							onChange={(e) => onSelectElementFormUpdate(e, "FireMission")}
 						/>
 					</div>
 
@@ -122,7 +147,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("TargetGrid")}
+							name="TargetGrid"
+							value={TEFAdjustmentState.TargetGrid}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-19 border-solid border h-auto">
@@ -130,7 +157,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("TargetGrid")}
+							name="Altitude"
+							value={TEFAdjustmentState.Altitude}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 
@@ -140,14 +169,12 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block w-1/5"
-							{...form.getInputProps("TargetGrid")}
+							name="Direction"
+							value={TEFAdjustmentState.Direction}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 						<Text className="inline-block">DIST:</Text>
-						<TextInput
-							variant="unstyled"
-							className="inline-block w-1/5"
-							{...form.getInputProps("TargetGrid")}
-						/>
+						<TextInput variant="unstyled" className="inline-block w-1/5" />
 						<Text className="inline-block">VA:</Text>
 						<TextInput variant="unstyled" className="inline-block w-1/5" />
 					</div>
@@ -166,12 +193,17 @@ const TargetEngagementForm = () => {
 							variant="unstyled"
 							className="inline-block w-1/3"
 							clearable
-							{...form.getInputProps("LRInitialAdjustment")}
+							value={TEFAdjustmentState.LRInitialDirection}
+							onChange={(e) =>
+								onSelectElementFormUpdate(e, "LRInitialDirection")
+							}
 						/>
 						<TextInput
 							variant="default"
 							className="inline-block w-1/3"
-							{...form.getInputProps("LRInitialAdjustment")}
+							name="LRInitialAdjustment"
+							value={TEFAdjustmentState.LRInitialAdjustment}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-6 border-solid border h-auto">
@@ -189,12 +221,17 @@ const TargetEngagementForm = () => {
 							variant="unstyled"
 							className="inline-block w-2/3"
 							clearable
-							{...form.getInputProps("ADInitialDirection")}
+							value={TEFAdjustmentState.ADInitialDirection}
+							onChange={(e) =>
+								onSelectElementFormUpdate(e, "ADInitialDirection")
+							}
 						/>
 						<TextInput
 							variant="default"
 							className="inline-block w-1/3"
-							{...form.getInputProps("ADInitialAdjustment")}
+							name="ADInitialAdjustment"
+							value={TEFAdjustmentState.ADInitialAdjustment}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 
@@ -215,7 +252,8 @@ const TargetEngagementForm = () => {
 							variant="unstyled"
 							className="inline-block w-1/3"
 							clearable
-							{...form.getInputProps("Ammo")}
+							value={TEFAdjustmentState.Ammo}
+							onChange={(e) => onSelectElementFormUpdate(e, "Ammo")}
 						/>
 					</div>
 					<div className="col-span-19 border-solid border h-auto">
@@ -236,7 +274,9 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block"
-							{...form.getInputProps("TargetDescription")}
+							name="TargetDescription"
+							value={TEFAdjustmentState.TargetDescription}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-6 border-solid border h-auto">
@@ -256,7 +296,8 @@ const TargetEngagementForm = () => {
 							variant="unstyled"
 							className="inline-block w-3/5"
 							clearable
-							{...form.getInputProps("Vegetation")}
+							value={TEFAdjustmentState.Vegetation}
+							onChange={(e) => onSelectElementFormUpdate(e, "Vegetation")}
 						/>
 					</div>
 
@@ -292,13 +333,17 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block w-1/3"
-							{...form.getInputProps("TargetFrontBearing")}
+							name="TargetFrontBearing"
+							value={TEFAdjustmentState.TargetFrontBearing}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 						<Text className="inline-block ">TFL:</Text>
 						<TextInput
 							variant="unstyled"
 							className="inline-block w-1/3"
-							{...form.getInputProps("TargetFrontLength")}
+							name="TargetFrontLength"
+							value={TEFAdjustmentState.TargetFrontLength}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 					</div>
 					<div className="col-span-6 border-solid border h-auto">
@@ -307,15 +352,18 @@ const TargetEngagementForm = () => {
 
 					{/*row 14 (MISSION TYPE)*/}
 					<div className="col-span-full border-solid border h-auto">
-						<Radio.Group {...form.getInputProps("MissionType")}>
+						<Checkbox.Group
+							value={[TEFAdjustmentState.MissionType]}
+							onChange={(e) => onCheckboxElementFormUpdate(e, "MissionType")}
+						>
 							<Group>
-								<Radio value="PR" label="PRECISION REGISTRATION"></Radio>
-								<Radio value="MPI" label="MPI REGISTRATION"></Radio>
-								<Radio value="VR" label="VECTOR RANGING"></Radio>
-								<Radio value="CTR" label="DANGERR CLOSE"></Radio>
-								<Radio value="SMK" label="SMK TGT"></Radio>
+								<Checkbox value="PR" label="PRECISION REGISTRATION"></Checkbox>
+								<Checkbox value="MPI" label="MPI REGISTRATION"></Checkbox>
+								<Checkbox value="VR" label="VECTOR RANGING"></Checkbox>
+								<Checkbox value="CTR" label="DANGERR CLOSE"></Checkbox>
+								<Checkbox value="SMK" label="SMK TGT"></Checkbox>
 							</Group>
-						</Radio.Group>
+						</Checkbox.Group>
 					</div>
 
 					{/*row 15 (CHECK)*/}
@@ -325,13 +373,17 @@ const TargetEngagementForm = () => {
 						<TextInput
 							variant="unstyled"
 							className="inline-block w-1/12"
-							{...form.getInputProps("CheckPE")}
+							name="CheckPE"
+							value={TEFAdjustmentState.CheckPE}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 						<Text className="inline-block ">/ ANGLE T</Text>
 						<TextInput
 							variant="unstyled"
 							className="inline-block w-1/12"
-							{...form.getInputProps("CheckAngleT")}
+							name="CheckAngleT"
+							value={TEFAdjustmentState.CheckAngleT}
+							onChange={(e) => onFormUpdate(e)}
 						/>
 						<Text className="inline-block ">
 							/ TIME OF FLIGHT / SPLASH AND COUNTDOWN
@@ -350,13 +402,22 @@ const TargetEngagementForm = () => {
 
 					{/*row 17(AMC/FIRE)*/}
 					<div className="col-span-13 border-solid border h-auto">
-						<Radio.Group {...form.getInputProps("MethodOfFireControl")}>
+						<Checkbox.Group
+							value={[TEFAdjustmentState.MethodOfFireControl]}
+							onChange={(e) =>
+								onCheckboxElementFormUpdate(e, "MethodOfFireControl")
+							}
+						>
 							<Group>
-								<Radio size="xs" value="AMC" label="AT MY COMMAND"></Radio>
-								<Radio size="xs" value="FIRE" label="FIRE"></Radio>
-								<Radio size="xs" value="TOT" label="TIME ON TGT"></Radio>
+								<Checkbox
+									size="xs"
+									value="AMC"
+									label="AT MY COMMAND"
+								></Checkbox>
+								<Checkbox size="xs" value="FIRE" label="FIRE"></Checkbox>
+								<Checkbox size="xs" value="TOT" label="TIME ON TGT"></Checkbox>
 							</Group>
-						</Radio.Group>
+						</Checkbox.Group>
 					</div>
 					<div className="col-span-10 border-solid border h-auto">
 						<Text className="inline-block ">ADVISE WHEN READY</Text>
@@ -428,85 +489,85 @@ const TargetEngagementForm = () => {
 						<Text ta="center">S / L</Text>
 					</div>
 
-					{/*row 21-34 PR has the most rows in ANS sheet (10 rows) 
-          so we have 13 blank rows for users to fill */}
+					{/*row 21-34 PR has the most rows in answer sheet (10 rows) 
+          			so we have 13 blank rows for users to fill */}
 					<TEFAdjustments
 						rowNumber={1}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={2}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={3}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={4}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={5}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={6}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={7}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={8}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={9}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={10}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={11}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={12}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 					<TEFAdjustments
 						rowNumber={13}
-						onSelectElementAdjustmentUpdate={onSelectElementAdjustmentUpdate}
+						onSelectElementAdjustmentUpdate={onSelectElementFormUpdate}
 						TEFAdjustmentState={TEFAdjustmentState}
-						onAdjustmentUpdate={onAdjustmentUpdate}
+						onAdjustmentUpdate={onFormUpdate}
 					></TEFAdjustments>
 
 					{/*row 35 PR Adjustments */}
@@ -541,13 +602,31 @@ const TargetEngagementForm = () => {
 						<Text ta="center">1</Text>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound1Left"
+							value={TEFAdjustmentState.PRRound1Left}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound1Right"
+							value={TEFAdjustmentState.PRRound1Right}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-3 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound1LongShort"
+							value={TEFAdjustmentState.PRRound1LongShort}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 38*/}
@@ -558,13 +637,31 @@ const TargetEngagementForm = () => {
 						<Text ta="center">2</Text>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound2Left"
+							value={TEFAdjustmentState.PRRound2Left}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound2Right"
+							value={TEFAdjustmentState.PRRound2Right}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-3 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound2LongShort"
+							value={TEFAdjustmentState.PRRound2LongShort}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 39*/}
@@ -575,13 +672,31 @@ const TargetEngagementForm = () => {
 						<Text ta="center">3</Text>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound3Left"
+							value={TEFAdjustmentState.PRRound3Left}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound3Right"
+							value={TEFAdjustmentState.PRRound3Right}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-3 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound3LongShort"
+							value={TEFAdjustmentState.PRRound3LongShort}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 40*/}
@@ -592,13 +707,31 @@ const TargetEngagementForm = () => {
 						<Text ta="center">4</Text>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound4Left"
+							value={TEFAdjustmentState.PRRound4Left}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-2 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound4Right"
+							value={TEFAdjustmentState.PRRound4Right}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-3 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRRound4LongShort"
+							value={TEFAdjustmentState.PRRound4LongShort}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 41*/}
@@ -610,7 +743,13 @@ const TargetEngagementForm = () => {
 					</div>
 					<div className="col-span-4 border-solid border h-auto">
 						<Text className="inline-block">LEFT: </Text>
-						<TextInput variant="unstyled" className="inline-block w-1/2" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/2"
+							name="PRTotalLeft"
+							value={TEFAdjustmentState.PRTotalLeft}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-3 row-span-5 border-solid border h-auto bg-gray-800"></div>
 
@@ -622,15 +761,33 @@ const TargetEngagementForm = () => {
 					<div className="col-span-3 border-solid border h-auto"></div>
 					<div className="col-span-4 border-solid border h-auto">
 						<Text className="inline-block">RIGHT: </Text>
-						<TextInput variant="unstyled" className="inline-block w-1/2" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/2"
+							name="PRTotalRight"
+							value={TEFAdjustmentState.PRTotalRight}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 43*/}
 					<div className="col-span-20 border-solid border h-auto">
 						<Text className="inline-block">ON ACT. CODE </Text>
-						<TextInput variant="unstyled" className="inline-block w-1/5" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/5"
+							name="ActivationCodeword"
+							value={TEFAdjustmentState.ActivationCodeword}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 						<Text className="inline-block">, ESTAB NEUT ON TARGET</Text>
-						<TextInput variant="unstyled" className="inline-block w-1/5" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/5"
+							name="TargetCodeword"
+							value={TEFAdjustmentState.TargetCodeword}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-2 border-solid border h-auto bg-stone-400">
 						<Text ta="center">P6</Text>
@@ -641,7 +798,13 @@ const TargetEngagementForm = () => {
 						</Text>
 					</div>
 					<div className="col-span-4 border-solid border h-auto">
-						<TextInput variant="unstyled" className="inline-block" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block"
+							name="PRNumberOfRounds"
+							value={TEFAdjustmentState.PRNumberOfRounds}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 44*/}
@@ -663,8 +826,13 @@ const TargetEngagementForm = () => {
 						</Text>
 					</div>
 					<div className="col-span-4 border-solid border h-auto">
-						<Text className="inline-block">RIGHT: </Text>
-						<TextInput variant="unstyled" className="inline-block w-1/2" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/2"
+							name="PRMean"
+							value={TEFAdjustmentState.PRMean}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 45*/}
@@ -686,8 +854,13 @@ const TargetEngagementForm = () => {
 						</Text>
 					</div>
 					<div className="col-span-4 border-solid border h-auto">
-						<Text className="inline-block">RIGHT: </Text>
-						<TextInput variant="unstyled" className="inline-block w-1/2" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/2"
+							name="PROTFactor"
+							value={TEFAdjustmentState.PROTFactor}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 46*/}
@@ -710,11 +883,23 @@ const TargetEngagementForm = () => {
 					</div>
 					<div className="col-span-4 border-solid border h-auto">
 						<Text className="inline-block pl-2">L</Text>
-						<TextInput variant="unstyled" className="inline-block w-2/3" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-2/3"
+							name="PRFinalOrdersLeft"
+							value={TEFAdjustmentState.PRFinalOrdersLeft}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 					<div className="col-span-3 border-solid border h-auto">
 						<Text className="inline-block pl-2">R</Text>
-						<TextInput variant="unstyled" className="inline-block w-2/3" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-2/3"
+							name="PRFinalOrdersRight"
+							value={TEFAdjustmentState.PRFinalOrdersRight}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 
 					{/*row 47*/}
@@ -739,14 +924,23 @@ const TargetEngagementForm = () => {
 							variant="unstyled"
 							className="inline-block w-2/3"
 							clearable
+							value={TEFAdjustmentState.PRFinalOrdersAddDrop}
+							onChange={(e) =>
+								onSelectElementFormUpdate(e, "PRFinalOrdersAddDrop")
+							}
 						/>
-						<Radio.Group>
+						<Checkbox.Group
+							value={[TEFAdjustmentState.PRFinalOrdersAddDropAmmount]}
+							onChange={(e) =>
+								onCheckboxElementFormUpdate(e, "PRFinalOrdersAddDropAmmount")
+							}
+						>
 							<Group>
-								<Radio size="xs" value="10" label="10"></Radio>
-								<Radio size="xs" value="20" label="20"></Radio>
-								<Radio size="xs" value="40" label="40"></Radio>
+								<Checkbox size="xs" value="10" label="10"></Checkbox>
+								<Checkbox size="xs" value="20" label="20"></Checkbox>
+								<Checkbox size="xs" value="40" label="40"></Checkbox>
 							</Group>
-						</Radio.Group>
+						</Checkbox.Group>
 					</div>
 
 					{/*row 48*/}
@@ -771,7 +965,13 @@ const TargetEngagementForm = () => {
 					</div>
 					<div className="col-span-10 border-solid border h-auto">
 						<Text className="inline-block pl-2">RECORD AS PR PT: </Text>
-						<TextInput variant="unstyled" className="inline-block w-1/3" />
+						<TextInput
+							variant="unstyled"
+							className="inline-block w-1/3"
+							name="PRRecordAsPoint"
+							value={TEFAdjustmentState.PRRecordAsPoint}
+							onChange={(e) => onFormUpdate(e)}
+						/>
 					</div>
 				</div>
 			</form>
