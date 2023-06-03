@@ -2,11 +2,7 @@ import { Group, Select, TextInput, Text, Checkbox } from "@mantine/core";
 import { TEFInitialValues } from "../objects/TargetEngagementFormObj";
 import TEFAdjustments from "./TEFAdjustments";
 import { useReducer } from "react";
-import {
-	TEFCorrectionReducer,
-	ActionEnum,
-} from "../reducers/TEFCorrectionReducer";
-import { CheckboxGroup } from "@mantine/core/lib/Checkbox/CheckboxGroup/CheckboxGroup";
+import { TEFCorrectionReducer,ActionEnum,} from "../reducers/TEFCorrectionReducer";
 
 const TargetEngagementForm = () => {
 	//useReducer for TEF adjustment rows

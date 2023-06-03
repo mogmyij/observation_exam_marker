@@ -250,3 +250,4 @@ export const TEFObj = {
 
 export type TEFInitialValuesType = typeof TEFInitialValues;
 export type AdjustmentRowType = typeof AdjustmentRow;
+export type TEFObjType = typeof TEFObj;
