@@ -1,13 +1,12 @@
 import { memo } from "react";
 import { TextInput, Select } from "@mantine/core";
 import {
-	TEFInitialValuesType,
 	AdjustmentRowType,
 } from "../objects/TargetEngagementFormObj";
 
 const TEFAdjustments = (props: {
 	onAdjustmentUpdate: Function;
-	TEFAdjustmentState: TEFInitialValuesType;
+	TEFAdjustmentState: AdjustmentRowType;
 	onSelectElementAdjustmentUpdate: Function;
 	rowNumber: number;
 }) => {
@@ -168,4 +167,4 @@ const TEFAdjustments = (props: {
 	);
 };
 
-export default memo(TEFAdjustments);
+export default TEFAdjustments;
