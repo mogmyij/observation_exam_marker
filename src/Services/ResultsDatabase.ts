@@ -1,28 +1,35 @@
 import axios from "axios";
+import { UserObj } from "../objects/UserObj";
 import { error } from "console";
 import { response } from "express";
-import { object } from "prop-types";
 
 const baseURL = "http://localhost:3001/cadets";
 
-const getCadet = () => {
-  return axios
-    .get(baseURL)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => console.log(error));
+const getCadet = (id:number) => {
+	return axios
+		.get(baseURL + `/${id}`).then(response=>{
+      return response.data
+    }).catch(error=>console.log(error))
 };
 
-const addCadet = (cadetObject: object) => {
-  return axios
-    .post(baseURL, cadetObject)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const addCadet = (cadetObject: UserObj) => {
+	return axios
+		.post(baseURL, cadetObject)
+		.then((response) => {
+			return response.data
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 };
 
-export default { getCadet, addCadet };
+const updateCadet = (id:number, cadetObject: UserObj) => {
+	return axios
+		.put(baseURL+`/${id}`, cadetObject)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((error) => console.log(error));
+};
+
+export default { getCadet, addCadet, updateCadet };

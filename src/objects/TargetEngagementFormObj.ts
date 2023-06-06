@@ -1,4 +1,4 @@
-const AdjustmentRow: { [key: string]: any } = {
+export const AdjustmentRow: { [key: string]: any } = {
 	Round: "",
 	VRDirection: "",
 	VRDistance: "",
@@ -219,7 +219,7 @@ export const TEFInitialValues: { [key: string]: any } = {
 };
 
 //object that will be populated with values from the form
-export const TEFObj = {
+export const TEFObj: { [key: string]: any } = {
 	//initial orders
 	OPLocation: "",
 	OPHeight: "",
@@ -243,7 +243,21 @@ export const TEFObj = {
 	CheckAngleT: "",
 	MethodOfFireControl: "",
 	//list containing each row of correction
-	AdjustmentRowList: Array<AdjustmentRowType>,
+	AdjustmentRowList: [
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+		AdjustmentRow,
+	],
 	//PR values
 	...PRCorrection,
 };

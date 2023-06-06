@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { TextInput, Select } from "@mantine/core";
 import {
 	TEFInitialValuesType,
@@ -101,7 +102,12 @@ const TEFAdjustments = (props: {
 					variant="unstyled"
 					className="inline-block"
 					clearable
-					onChange={e=>props.onSelectElementAdjustmentUpdate(e,"AmmoCorrection" + rowNumberString)}
+					onChange={(e) =>
+						props.onSelectElementAdjustmentUpdate(
+							e,
+							"AmmoCorrection" + rowNumberString
+						)
+					}
 					value={AdjustmentRow.AmmoCorrection}
 				/>
 			</div>
@@ -149,7 +155,12 @@ const TEFAdjustments = (props: {
 					variant="unstyled"
 					className="inline-block"
 					clearable
-					onChange={e=>props.onSelectElementAdjustmentUpdate(e,"AdditionalCorrection" + rowNumberString)}
+					onChange={(e) =>
+						props.onSelectElementAdjustmentUpdate(
+							e,
+							"AdditionalCorrection" + rowNumberString
+						)
+					}
 					value={AdjustmentRow.AdditionalCorrection}
 				/>
 			</div>
@@ -157,4 +168,4 @@ const TEFAdjustments = (props: {
 	);
 };
 
-export default TEFAdjustments;
+export default memo(TEFAdjustments);

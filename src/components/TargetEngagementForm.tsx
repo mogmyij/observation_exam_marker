@@ -1,10 +1,17 @@
 import { Group, Select, TextInput, Text, Checkbox } from "@mantine/core";
-import { TEFInitialValues } from "../objects/TargetEngagementFormObj";
+import {
+	TEFInitialValues,
+	AdjustmentRowType,
+	TEFObjType,
+} from "../objects/TargetEngagementFormObj";
 import TEFAdjustments from "./TEFAdjustments";
-import { useReducer } from "react";
-import { TEFCorrectionReducer,ActionEnum,} from "../reducers/TEFCorrectionReducer";
+import { memo, useEffect, useReducer } from "react";
+import {
+	TEFCorrectionReducer,
+	ActionEnum,
+} from "../reducers/TEFCorrectionReducer";
 
-const TargetEngagementForm = () => {
+const TargetEngagementForm = (props: { TEFObj: TEFObjType }) => {
 	//useReducer for TEF adjustment rows
 	const [TEFAdjustmentState, TEFAdjustmentDispatcher] = useReducer(
 		TEFCorrectionReducer,
@@ -48,6 +55,35 @@ const TargetEngagementForm = () => {
 			payload: value,
 		});
 	};
+
+	//useEffect to update the TEF Object each time the TEF is edited
+	useEffect(() => {
+		//loop through each key value pair in TEFAdjustmentState and add it to TEFObj
+		for (const key in TEFAdjustmentState) {
+			if (Object.hasOwn(props.TEFObj, key)) {
+				props.TEFObj[key] = TEFAdjustmentState[key];
+			}
+		}
+		var TEFAdjustmentArray = Object.values(TEFAdjustmentState);
+		var TEFAdjustmentRowArray: AdjustmentRowType[] = [];
+		//add each row to TEFAdjustmentRowArray (13 times)
+		//add each key to adjustmentRow object (rounds, LRAdjustments, etc...)
+		for (let index = 21; index < 151; index += 10) {
+			var newAdjustmentRow: AdjustmentRowType = {};
+			newAdjustmentRow.Round = TEFAdjustmentArray[index];
+			newAdjustmentRow.VRDirection = TEFAdjustmentArray[index + 1];
+			newAdjustmentRow.VRDistance = TEFAdjustmentArray[index + 2];
+			newAdjustmentRow.VRVerticalAngle = TEFAdjustmentArray[index + 3];
+			newAdjustmentRow.LRObservation = TEFAdjustmentArray[index + 4];
+			newAdjustmentRow.SLObservation = TEFAdjustmentArray[index + 5];
+			newAdjustmentRow.AmmoCorrection = TEFAdjustmentArray[index + 6];
+			newAdjustmentRow.LRCorrection = TEFAdjustmentArray[index + 7];
+			newAdjustmentRow.ADCorrection = TEFAdjustmentArray[index + 8];
+			newAdjustmentRow.AdditionalCorrection = TEFAdjustmentArray[index + 9];
+			TEFAdjustmentRowArray.push(newAdjustmentRow);
+		}
+		props.TEFObj.AdjustmentRowList = TEFAdjustmentRowArray;
+	}, [TEFAdjustmentState]);
 
 	//init form object
 	return (
@@ -975,4 +1011,4 @@ const TargetEngagementForm = () => {
 	);
 };
 
-export default TargetEngagementForm;
+export default memo(TargetEngagementForm);

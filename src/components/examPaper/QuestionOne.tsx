@@ -2,10 +2,14 @@ import { useForm } from "@mantine/form";
 import { List, TextInput, Text, Textarea, Button } from "@mantine/core";
 import TargetEngagementForm from "../TargetEngagementForm";
 import { QuestionOneObj } from "../../objects/QuestionOneObj";
-import { TEFObj, TEFObjType } from "../../objects/TargetEngagementFormObj";
-import { log } from "console";
+import { TEFObj } from "../../objects/TargetEngagementFormObj";
+import { UserObj } from "../../objects/UserObj";
+import ResultsDatabase from "../../Services/ResultsDatabase";
 
-const QuestionOne = () => {
+const QuestionOne = (props: {
+	user: UserObj;
+	setUser: React.Dispatch<React.SetStateAction<UserObj>>;
+}) => {
 	//init question one object
 	let QuestionOneAns: QuestionOneObj = {
 		a1: "",
@@ -25,7 +29,17 @@ const QuestionOne = () => {
 	type formValuesType = typeof form.values;
 
 	const onSubmit = (values: formValuesType) => {
-		console.log(values);
+    let updatedUser=props.user
+    updatedUser.questionOneObj.a1=values.a1
+    updatedUser.questionOneObj.a2=values.a2
+    updatedUser.questionOneObj.a3=values.a3
+    updatedUser.questionOneObj.c1=values.c1
+    updatedUser.questionOneObj.c2=values.c2
+    updatedUser.questionOneObj.c3=values.c3
+    props.setUser(updatedUser)
+		ResultsDatabase.updateCadet(props.user.id, props.user).then((response) => {
+			console.log(response);
+		});
 	};
 
 	return (
@@ -34,7 +48,10 @@ const QuestionOne = () => {
 				<h2 className="border-solid border-b border-x-0 border-t-0">
 					Question 1 (40 Marks):
 				</h2>
-				<form id="questionOneForm" onSubmit={form.onSubmit((values) => onSubmit(values))}>
+				<form
+					id="questionOneForm"
+					onSubmit={form.onSubmit((values) => onSubmit(values))}
+				>
 					<List type="ordered" listStyleType="lower-alpha">
 						<List.Item>
 							<Text>Fill in the Following Blanks.</Text>
@@ -119,8 +136,10 @@ const QuestionOne = () => {
 						</List.Item>
 					</List>
 				</form>
-				<TargetEngagementForm />
-        <Button className="my-8" type="submit" form="questionOneForm">Next question</Button>
+				<TargetEngagementForm TEFObj={props.user.questionOneObj.TEF} />
+				<Button className="my-8" type="submit" form="questionOneForm">
+					Next question
+				</Button>
 			</div>
 		</div>
 	);

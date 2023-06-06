@@ -1,7 +1,8 @@
 import { QuestionOneObj } from "./QuestionOneObj";
 
-export interface CadetObj {
+export interface UserObj {
     name: string;
     nric: string;
+    id: number;
     questionOneObj: QuestionOneObj;
 }
