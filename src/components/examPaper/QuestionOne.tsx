@@ -2,8 +2,8 @@ import { useForm } from "@mantine/form";
 import { List, TextInput, Text, Textarea, Button } from "@mantine/core";
 import TargetEngagementForm from "../TargetEngagementForm";
 import { QuestionOneObj } from "../../objects/QuestionOneObj";
-import { TEFObj } from "../../objects/TargetEngagementFormObj";
-import { UserObj } from "../../objects/UserObj";
+import { cloneTEFObj } from "../../objects/TargetEngagementFormObj";
+import { UserObj, cloneUserObj } from "../../objects/UserObj";
 import ResultsDatabase from "../../Services/ResultsDatabase";
 
 const QuestionOne = (props: {
@@ -18,7 +18,7 @@ const QuestionOne = (props: {
 		c1: "",
 		c2: "",
 		c3: "",
-		TEF: TEFObj,
+		TEF: cloneTEFObj(),
 	};
 	//init form
 	const form = useForm({
@@ -29,14 +29,20 @@ const QuestionOne = (props: {
 	type formValuesType = typeof form.values;
 
 	const onSubmit = (values: formValuesType) => {
-    let updatedUser=props.user
-    updatedUser.questionOneObj.a1=values.a1
-    updatedUser.questionOneObj.a2=values.a2
-    updatedUser.questionOneObj.a3=values.a3
-    updatedUser.questionOneObj.c1=values.c1
-    updatedUser.questionOneObj.c2=values.c2
-    updatedUser.questionOneObj.c3=values.c3
-    props.setUser(updatedUser)
+		//pass user object by value instead of reference by creating a deep copy
+		//instead of a shallow one
+		let updatedUser=cloneUserObj(props.user)
+		//update new user with values from the form
+		updatedUser.questionOneObj.a1=values.a1
+		updatedUser.questionOneObj.a2=values.a2
+		updatedUser.questionOneObj.a3=values.a3
+		updatedUser.questionOneObj.c1=values.c1
+		updatedUser.questionOneObj.c2=values.c2
+		updatedUser.questionOneObj.c3=values.c3
+		//update new user with values from the TEF
+		updatedUser.questionOneObj.TEF=QuestionOneAns.TEF
+		//set new user state and update backend
+		props.setUser(updatedUser)
 		ResultsDatabase.updateCadet(props.user.id, props.user).then((response) => {
 			console.log(response);
 		});
@@ -136,7 +142,7 @@ const QuestionOne = (props: {
 						</List.Item>
 					</List>
 				</form>
-				<TargetEngagementForm TEFObj={props.user.questionOneObj.TEF} />
+				<TargetEngagementForm TEFObj={QuestionOneAns.TEF} />
 				<Button className="my-8" type="submit" form="questionOneForm">
 					Next question
 				</Button>

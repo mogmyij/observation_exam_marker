@@ -6,7 +6,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import QuestionOne from "./components/examPaper/QuestionOne";
 import { UserObj } from "./objects/UserObj";
 import { QuestionOneObj } from "./objects/QuestionOneObj";
-import { TEFObj } from "./objects/TargetEngagementFormObj";
+import { cloneTEFObj } from "./objects/TargetEngagementFormObj";
 
 export class user {
 	name: string;
@@ -27,7 +27,7 @@ function App() {
 		c1: "",
 		c2: "",
 		c3: "",
-		TEF: TEFObj,
+		TEF: cloneTEFObj(),
 	};
 	const initialUser: UserObj = {
 		name: "",

@@ -90,3 +90,10 @@ export type InitialOrdersType = typeof InitialOrders;
 export type AdjustmentRowType = typeof AdjustmentRow;
 export type PRCorrectionsType = typeof PRCorrections;
 export type TEFObjType = typeof TEFObj;
+
+export const cloneTEFObj=(existingTEFObj?:TEFObjType):TEFObjType=>{
+	if (existingTEFObj!==undefined) {
+		return JSON.parse(JSON.stringify(existingTEFObj)) as TEFObjType
+	}
+	return JSON.parse(JSON.stringify(TEFObj)) as TEFObjType
+}

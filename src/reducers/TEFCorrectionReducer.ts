@@ -1,4 +1,4 @@
-import { TEFObjType } from "../objects/TargetEngagementFormObj";
+import { TEFObjType, cloneTEFObj } from "../objects/TargetEngagementFormObj";
 
 export enum ActionEnum {
 	updateInitialOrdersState = "UPDATE INITIAL ORDERS STATE",
@@ -14,11 +14,10 @@ export type Action = {
 };
 
 export const TEFObjReducer = (state: TEFObjType, action: Action) => {
-	let newState = {...state};
+	let newState = cloneTEFObj(state);
 	switch (action.type) {
 		case ActionEnum.updateInitialOrdersState:
 			newState.InitialOrders[action.name] = action.payload;
-      console.log("reducer active",newState);
 			return newState;
 		case ActionEnum.updateAdjustmentRowState:
 			newState.AdjustmentRowList[action.rowNumber!][action.name] = action.payload;

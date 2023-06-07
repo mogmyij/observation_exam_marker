@@ -1,40 +1,48 @@
-import { memo } from "react";
 import { TextInput, Select } from "@mantine/core";
-import {
-	AdjustmentRowType,
-} from "../objects/TargetEngagementFormObj";
+import { AdjustmentRowType } from "../objects/TargetEngagementFormObj";
+import { Action, ActionEnum } from "../reducers/TEFCorrectionReducer";
+import React from "react";
 
 const TEFAdjustments = (props: {
-	onAdjustmentUpdate: Function;
-	TEFAdjustmentState: AdjustmentRowType;
-	onSelectElementAdjustmentUpdate: Function;
+	AdjustmentRow: AdjustmentRowType;
 	rowNumber: number;
+	TEFObjDispatcher: React.Dispatch<Action>;
 }) => {
-	const rowNumberString = props.rowNumber.toString();
-	//get a subset of the TEFAdjustmentState based on row number
-	const AdjustmentRow: AdjustmentRowType = {
-		Round: props.TEFAdjustmentState["Round" + rowNumberString],
-		VRDirection: props.TEFAdjustmentState["VRDirection" + rowNumberString],
-		VRDistance: props.TEFAdjustmentState["VRDistance" + rowNumberString],
-		VRVerticalAngle:
-			props.TEFAdjustmentState["VRVerticalAngle" + rowNumberString],
-		LRObservation: props.TEFAdjustmentState["LRObservation" + rowNumberString],
-		SLObservation: props.TEFAdjustmentState["SLObservation" + rowNumberString],
-		AmmoCorrection:
-			props.TEFAdjustmentState["AmmoCorrection" + rowNumberString],
-		LRCorrection: props.TEFAdjustmentState["LRCorrection" + rowNumberString],
-		ADCorrection: props.TEFAdjustmentState["ADCorrection" + rowNumberString],
-		AdditionalCorrection:
-			props.TEFAdjustmentState["AdditionalCorrection" + rowNumberString],
+	//function that uses dispatcher function obtained from reducer to update the state
+	//each time the input box is updated
+	const onFormUpdate = (
+		event: React.ChangeEvent<HTMLInputElement>,
+		rowNumber: number
+	) => {
+		props.TEFObjDispatcher({
+			type: ActionEnum.updateAdjustmentRowState,
+			name: event.target.name,
+			payload: event.target.value,
+			rowNumber: rowNumber,
+		});
+	};
+	//same as above function just that for the select boxes because the onChange callback
+	//is modified by mantine so it does not produce original behaviour
+	const onSelectElementFormUpdate = (
+		value: string | null,
+		name: string,
+		rowNumber: number
+	) => {
+		props.TEFObjDispatcher({
+			type: ActionEnum.updateAdjustmentRowState,
+			name: name,
+			payload: value,
+			rowNumber: rowNumber,
+		});
 	};
 
 	return (
 		<>
 			<div className="col-span-1  border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.Round}
-					name={"Round" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.Round}
+					name={"Round"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
@@ -44,45 +52,45 @@ const TEFAdjustments = (props: {
 			<div className="col-span-2  border-solid border h-auto"></div>
 			<div className="col-span-2  border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.VRDirection}
-					name={"VRDirection" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.VRDirection}
+					name={"VRDirection"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
 			</div>
 			<div className="col-span-2  border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.VRDistance}
-					name={"VRDistance" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.VRDistance}
+					name={"VRDistance"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
 			</div>
 			<div className="col-span-2  border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.VRVerticalAngle}
-					name={"VRVerticalAngle" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.VRVerticalAngle}
+					name={"VRVerticalAngle"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
 			</div>
 			<div className="col-span-3 border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.LRObservation}
-					name={"LRObservation" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.LRObservation}
+					name={"LRObservation"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
 			</div>
 			<div className="col-span-2 border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.SLObservation}
-					name={"SLObservation" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.SLObservation}
+					name={"SLObservation"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
@@ -102,30 +110,27 @@ const TEFAdjustments = (props: {
 					className="inline-block"
 					clearable
 					onChange={(e) =>
-						props.onSelectElementAdjustmentUpdate(
-							e,
-							"AmmoCorrection" + rowNumberString
-						)
+						onSelectElementFormUpdate(e, "AmmoCorrection", props.rowNumber)
 					}
-					value={AdjustmentRow.AmmoCorrection}
+					value={props.AdjustmentRow.AmmoCorrection}
 				/>
 			</div>
 			<div className="col-span-2 border-solid border h-auto"></div>
 			<div className="col-span-2 border-solid border h-auto"></div>
 			<div className="col-span-2 border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.LRCorrection}
-					name={"LRCorrection" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.LRCorrection}
+					name={"LRCorrection"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
 			</div>
 			<div className="col-span-2  border-solid border h-auto">
 				<TextInput
-					onChange={(event) => props.onAdjustmentUpdate(event)}
-					value={AdjustmentRow.ADCorrection}
-					name={"ADCorrection" + rowNumberString}
+					onChange={(event) => onFormUpdate(event, props.rowNumber)}
+					value={props.AdjustmentRow.ADCorrection}
+					name={"ADCorrection"}
 					variant="unstyled"
 					className="inline-block w-full"
 				/>
@@ -155,12 +160,13 @@ const TEFAdjustments = (props: {
 					className="inline-block"
 					clearable
 					onChange={(e) =>
-						props.onSelectElementAdjustmentUpdate(
+						onSelectElementFormUpdate(
 							e,
-							"AdditionalCorrection" + rowNumberString
+							"AdditionalCorrection",
+							props.rowNumber
 						)
 					}
-					value={AdjustmentRow.AdditionalCorrection}
+					value={props.AdjustmentRow.AdditionalCorrection}
 				/>
 			</div>
 		</>

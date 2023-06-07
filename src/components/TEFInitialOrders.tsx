@@ -6,9 +6,6 @@ const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispa
 	//function that uses dispatcher function obtained from reducer to update the state
 	//each time the input box is updated
 	const onFormUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log("\nform updated",event);
-        console.log("init orders",props.InitialOrders.OPLocation);
-        
 		props.TEFObjDispatcher({
 			type: ActionEnum.updateInitialOrdersState,
 			name: event.target.name,
