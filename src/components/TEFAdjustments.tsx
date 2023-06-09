@@ -1,7 +1,8 @@
 import { TextInput, Select } from "@mantine/core";
 import { AdjustmentRowType } from "../objects/TargetEngagementFormObj";
 import { Action, ActionEnum } from "../reducers/TEFCorrectionReducer";
-import React from "react";
+import { memo } from "react";
+import equal from "fast-deep-equal";
 
 const TEFAdjustments = (props: {
 	AdjustmentRow: AdjustmentRowType;
@@ -173,4 +174,6 @@ const TEFAdjustments = (props: {
 	);
 };
 
-export default TEFAdjustments;
+export default memo(TEFAdjustments, (oldProps, newProps) =>
+	equal(oldProps.AdjustmentRow, newProps.AdjustmentRow)
+);

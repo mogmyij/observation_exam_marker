@@ -1,8 +1,13 @@
 import { InitialOrdersType } from "../objects/TargetEngagementFormObj";
 import { Text, TextInput, Select, Checkbox, Group } from "@mantine/core";
-import { Action,ActionEnum } from "../reducers/TEFCorrectionReducer";
+import { Action, ActionEnum } from "../reducers/TEFCorrectionReducer";
+import { memo } from "react";
+import equal from "fast-deep-equal";
 
-const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispatcher: React.Dispatch<Action> }) => {
+const TEFInitialOrders = (props: {
+	InitialOrders: InitialOrdersType;
+	TEFObjDispatcher: React.Dispatch<Action>;
+}) => {
 	//function that uses dispatcher function obtained from reducer to update the state
 	//each time the input box is updated
 	const onFormUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,7 +15,7 @@ const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispa
 			type: ActionEnum.updateInitialOrdersState,
 			name: event.target.name,
 			payload: event.target.value,
-			rowNumber: null
+			rowNumber: null,
 		});
 	};
 	//same as above function just that for the select boxes because the onChange callback
@@ -20,7 +25,7 @@ const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispa
 			type: ActionEnum.updateInitialOrdersState,
 			name: name,
 			payload: value,
-			rowNumber: null
+			rowNumber: null,
 		});
 	};
 	//Same as other functions just that for checkbox they return a string array
@@ -41,11 +46,11 @@ const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispa
 			type: ActionEnum.updateInitialOrdersState,
 			name: name,
 			payload: value,
-			rowNumber: null
+			rowNumber: null,
 		});
 	};
 
-    return (
+	return (
 		<>
 			{/*row 1 (OP LOCATION)*/}
 			<div className="col-span-16 border-solid border h-auto">
@@ -60,7 +65,6 @@ const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispa
 			</div>
 			<div className="col-span-16 border-solid border h-auto">
 				<Text className="inline-block">Target Code NO.:</Text>
-				<TextInput variant="unstyled" className="inline-block" />
 			</div>
 
 			{/*row 2*/}
@@ -472,4 +476,6 @@ const TEFInitialOrders = (props: { InitialOrders: InitialOrdersType, TEFObjDispa
 	);
 };
 
-export default TEFInitialOrders
+export default memo(TEFInitialOrders, (oldProps, newProps) =>
+	equal(oldProps.InitialOrders, newProps.InitialOrders)
+);

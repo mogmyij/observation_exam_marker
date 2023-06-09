@@ -6,9 +6,10 @@ import {
 } from "../objects/TargetEngagementFormObj";
 import TEFAdjustments from "./TEFAdjustments";
 import { useEffect, useReducer } from "react";
-import { TEFObjReducer, ActionEnum } from "../reducers/TEFCorrectionReducer";
+import { TEFObjReducer } from "../reducers/TEFCorrectionReducer";
 import TEFInitialOrders from "./TEFInitialOrders";
 import TEFPRCorrections from "./TEFPRCorrections";
+import equal from "fast-deep-equal";
 
 const TargetEngagementForm = (props: { TEFObj: TEFObjType }) => {
 	//useReducer for TEF adjustment rows

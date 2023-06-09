@@ -1,6 +1,8 @@
 import { Text, TextInput, Select, Checkbox, Group } from "@mantine/core";
 import { Action, ActionEnum } from "../reducers/TEFCorrectionReducer";
 import { PRCorrectionsType } from "../objects/TargetEngagementFormObj";
+import { memo } from "react";
+import equal from "fast-deep-equal";
 
 const TEFPRCorrections = (props: {
 	PRCorrections: PRCorrectionsType;
@@ -453,4 +455,6 @@ const TEFPRCorrections = (props: {
 	);
 };
 
-export default TEFPRCorrections;
+export default memo(TEFPRCorrections, (oldProps, newProps) =>
+	equal(oldProps.PRCorrections, newProps.PRCorrections)
+);
