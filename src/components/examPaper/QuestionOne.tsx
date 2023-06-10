@@ -5,21 +5,27 @@ import { QuestionOneObj } from "../../objects/QuestionOneObj";
 import { cloneTEFObj } from "../../objects/TargetEngagementFormObj";
 import { UserObj, cloneUserObj } from "../../objects/UserObj";
 import ResultsDatabase from "../../Services/ResultsDatabase";
+import { useReducer } from "react";
+import { TEFObjReducer } from "../../reducers/TEFCorrectionReducer";
+import { useNavigate } from "react-router-dom";
 
 const QuestionOne = (props: {
 	user: UserObj;
 	setUser: React.Dispatch<React.SetStateAction<UserObj>>;
 }) => {
+	//init navigator hoook
+	const navigate = useNavigate();
 	//init question one object
 	let QuestionOneAns: QuestionOneObj = {
-		a1: "",
-		a2: "",
-		a3: "",
-		c1: "",
-		c2: "",
-		c3: "",
-		TEF: cloneTEFObj(),
+		...props.user.questionOneObj
 	};
+
+	//TEF state that is passed to the TEF component to use
+	const [QuestionOneTEFObjState, TEFObjDispatcher] = useReducer(
+		TEFObjReducer,
+		cloneTEFObj()
+	);
+
 	//init form
 	const form = useForm({
 		initialValues: {
@@ -31,20 +37,20 @@ const QuestionOne = (props: {
 	const onSubmit = (values: formValuesType) => {
 		//pass user object by value instead of reference by creating a deep copy
 		//instead of a shallow one
-		let updatedUser=cloneUserObj(props.user)
+		let updatedUser = cloneUserObj(props.user);
 		//update new user with values from the form
-		updatedUser.questionOneObj.a1=values.a1
-		updatedUser.questionOneObj.a2=values.a2
-		updatedUser.questionOneObj.a3=values.a3
-		updatedUser.questionOneObj.c1=values.c1
-		updatedUser.questionOneObj.c2=values.c2
-		updatedUser.questionOneObj.c3=values.c3
+		updatedUser.questionOneObj.a1 = values.a1;
+		updatedUser.questionOneObj.a2 = values.a2;
+		updatedUser.questionOneObj.a3 = values.a3;
+		updatedUser.questionOneObj.c1 = values.c1;
+		updatedUser.questionOneObj.c2 = values.c2;
+		updatedUser.questionOneObj.c3 = values.c3;
 		//update new user with values from the TEF
-		updatedUser.questionOneObj.TEF=QuestionOneAns.TEF
-		//set new user state and update backend
-		props.setUser(updatedUser)
-		ResultsDatabase.updateCadet(props.user.id, props.user).then((response) => {
-			console.log(response);
+		updatedUser.questionOneTEF = QuestionOneTEFObjState;
+		//set update backend and update user state
+		ResultsDatabase.updateCadet(updatedUser.id, updatedUser).then((data) => {
+			props.setUser(data);
+			navigate("/q2");
 		});
 	};
 
@@ -142,7 +148,10 @@ const QuestionOne = (props: {
 						</List.Item>
 					</List>
 				</form>
-				<TargetEngagementForm TEFObj={QuestionOneAns.TEF} />
+				<TargetEngagementForm
+					TEFObjState={QuestionOneTEFObjState}
+					TEFObjDispatcher={TEFObjDispatcher}
+				/>
 				<Button className="my-8" type="submit" form="questionOneForm">
 					Next question
 				</Button>

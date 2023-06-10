@@ -1,5 +1,3 @@
-import { TEFObjType } from "./TargetEngagementFormObj";
-
 export interface QuestionOneObj{
     a1: string;
     a2: string;
@@ -7,5 +5,4 @@ export interface QuestionOneObj{
     c1: string;
     c2: string;
     c3: string;
-    TEF: TEFObjType;
 }
