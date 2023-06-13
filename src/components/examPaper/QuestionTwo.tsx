@@ -1,26 +1,28 @@
 import { useForm } from "@mantine/form";
-import { List, TextInput, Text, Textarea, Button } from "@mantine/core";
+import { List, Text, Textarea, Button } from "@mantine/core";
 import TargetEngagementForm from "../TargetEngagementForm";
 import { QuestionTwoObj } from "../../objects/QuestionTwoObj";
-import { cloneTEFObj } from "../../objects/TargetEngagementFormObj";
 import { UserObj, cloneUserObj } from "../../objects/UserObj";
 import ResultsDatabase from "../../Services/ResultsDatabase";
 import { useReducer } from "react";
 import { TEFObjReducer } from "../../reducers/TEFCorrectionReducer";
+import { useNavigate } from "react-router-dom";
+import { directionEnum } from "../../objects/QuestionOneObj";
 
 const QuestionTwo = (props: {
 	user: UserObj;
 	setUser: React.Dispatch<React.SetStateAction<UserObj>>;
 }) => {
+	const navigate = useNavigate();
 	//init QuestionTwoObj
 	let QuestionTwoObj: QuestionTwoObj = {
-        ...props.user.questionTwoObj
+		...props.user.questionTwoObj,
 	};
 
 	//init QuestionTwo TEF State
 	const [QuestionTwoTEFObjState, TEFObjDispatcher] = useReducer(
 		TEFObjReducer,
-		cloneTEFObj()
+		props.user.questionTwoTEF
 	);
 
 	//init form
@@ -29,29 +31,31 @@ const QuestionTwo = (props: {
 			...QuestionTwoObj,
 		},
 	});
-	type formValuesType = typeof form.values;
 
-	const onSubmit = (values: formValuesType) => {
+	const onClick = (direction: directionEnum) => {
 		//pass user object by value instead of reference by creating a deep copy
 		//instead of a shallow one
 		let updatedUser = cloneUserObj(props.user);
 		//update new user with values from the form
-		updatedUser.questionTwoObj.b1 = values.b1;
-		updatedUser.questionTwoObj.b2 = values.b2;
-		updatedUser.questionTwoObj.b3 = values.b3;
-		updatedUser.questionTwoObj.b4 = values.b4;
-		updatedUser.questionTwoObj.b5 = values.b5;
-		updatedUser.questionTwoObj.b6 = values.b6;
-		updatedUser.questionTwoObj.b7 = values.b7;
-		updatedUser.questionTwoObj.b8 = values.b8;
+		updatedUser.questionTwoObj.b1 = form.values.b1;
+		updatedUser.questionTwoObj.b2 = form.values.b2;
+		updatedUser.questionTwoObj.b3 = form.values.b3;
+		updatedUser.questionTwoObj.b4 = form.values.b4;
+		updatedUser.questionTwoObj.b5 = form.values.b5;
+		updatedUser.questionTwoObj.b6 = form.values.b6;
+		updatedUser.questionTwoObj.b7 = form.values.b7;
+		updatedUser.questionTwoObj.b8 = form.values.b8;
 		//update new user with values from the TEF
-		updatedUser.questionOneTEF = QuestionTwoTEFObjState;
+		updatedUser.questionTwoTEF = QuestionTwoTEFObjState;
 		//set update backend and update user state
-		ResultsDatabase.updateCadet(updatedUser.id, updatedUser).then(
-			(data) => {
-				props.setUser(data);
+		ResultsDatabase.updateCadet(updatedUser.id, updatedUser).then((data) => {
+			props.setUser(data);
+			if (direction === directionEnum.next) {
+				navigate("/q3");
+			} else {
+				navigate("/q1");
 			}
-		);
+		});
 	};
 
 	return (
@@ -60,10 +64,7 @@ const QuestionTwo = (props: {
 				<h2 className="border-solid border-b border-x-0 border-t-0">
 					Question 2 (40 Marks):
 				</h2>
-				<form
-					id="questionTwoForm"
-					onSubmit={form.onSubmit((values) => onSubmit(values))}
-				>
+				<form>
 					<List type="ordered" listStyleType="lower-alpha">
 						<List.Item>
 							<Text>
@@ -198,10 +199,10 @@ const QuestionTwo = (props: {
 					TEFObjDispatcher={TEFObjDispatcher}
 				/>
 				<div className="flex justify-between">
-					<Button className="my-8" type="submit" form="questionTwoForm">
+					<Button className="my-8" onClick={() => onClick(directionEnum.back)}>
 						Previous Question
 					</Button>
-					<Button className="my-8" type="submit" form="questionTwoForm">
+					<Button className="my-8" onClick={() => onClick(directionEnum.next)}>
 						Next question
 					</Button>
 				</div>

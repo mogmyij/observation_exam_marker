@@ -1,3 +1,8 @@
+export enum directionEnum{
+    next="NEXT",
+    back="BACK"
+}
+
 export interface QuestionOneObj{
     a1: string;
     a2: string;

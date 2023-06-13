@@ -3,8 +3,7 @@ import {
 	cloneTEFObj,
 } from "../objects/TargetEngagementFormObj";
 import TEFAdjustments from "./TEFAdjustments";
-import { useEffect, useReducer } from "react";
-import { Action, TEFObjReducer } from "../reducers/TEFCorrectionReducer";
+import { Action } from "../reducers/TEFCorrectionReducer";
 import TEFInitialOrders from "./TEFInitialOrders";
 import TEFPRCorrections from "./TEFPRCorrections";
 
