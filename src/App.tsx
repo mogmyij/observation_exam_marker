@@ -12,6 +12,9 @@ import { cloneTEFObj } from "./objects/TargetEngagementFormObj";
 import ScrollToTop from "./components/ScrollToTop";
 import { QuestionThreeObj } from "./objects/QuestionThreeObj";
 import QuestionThree from "./components/examPaper/QuestionThree";
+import { QuestionFourObj } from "./objects/QuestionFourObj";
+import QuestionFour from "./components/examPaper/QuestionFour";
+import QuestionFive from "./components/examPaper/QuestionFive";
 
 export class user {
 	name: string;
@@ -49,6 +52,10 @@ function App() {
 		c3: "",
 		c4: "",
 	};
+	let QuestionFourAns: QuestionFourObj = {
+		b1: "",
+		c1: "",
+	};
 	const initialUser: UserObj = {
 		name: "",
 		nric: "",
@@ -59,6 +66,9 @@ function App() {
 		questionTwoTEF: cloneTEFObj(),
 		questionThreeObj: QuestionThreeAns,
 		questionThreeTEF: cloneTEFObj(),
+		questionFourObj: QuestionFourAns,
+		questionFourTEF: cloneTEFObj(),
+		questionFiveTEF: cloneTEFObj(),
 	};
 	const [currentUser, setUser] = useState<UserObj>(initialUser);
 	const [testHasBegun, setTestHasBegun] = useState<boolean>(false);
@@ -110,6 +120,26 @@ function App() {
 						element={
 							testHasBegun ? (
 								<QuestionThree user={currentUser} setUser={setUser} />
+							) : (
+								<Navigate replace to={"/"} />
+							)
+						}
+					/>
+					<Route
+						path="/q4"
+						element={
+							testHasBegun ? (
+								<QuestionFour user={currentUser} setUser={setUser} />
+							) : (
+								<Navigate replace to={"/"} />
+							)
+						}
+					/>
+					<Route
+						path="/q5"
+						element={
+							testHasBegun ? (
+								<QuestionFive user={currentUser} setUser={setUser} />
 							) : (
 								<Navigate replace to={"/"} />
 							)

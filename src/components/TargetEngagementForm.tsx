@@ -1,6 +1,5 @@
 import {
 	TEFObjType,
-	cloneTEFObj,
 } from "../objects/TargetEngagementFormObj";
 import TEFAdjustments from "./TEFAdjustments";
 import { Action } from "../reducers/TEFCorrectionReducer";
@@ -8,7 +7,7 @@ import TEFInitialOrders from "./TEFInitialOrders";
 import TEFPRCorrections from "./TEFPRCorrections";
 
 const TargetEngagementForm = (props: { TEFObjState: TEFObjType, TEFObjDispatcher :React.Dispatch<Action> }) => {
-	
+
 	return (
 		<div>
 			<h2 className="Text-center">Target Engagement Form</h2>

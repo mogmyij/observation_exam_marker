@@ -1,3 +1,4 @@
+import { QuestionFourObj } from "./QuestionFourObj";
 import { QuestionOneObj } from "./QuestionOneObj";
 import { QuestionThreeObj } from "./QuestionThreeObj";
 import { QuestionTwoObj } from "./QuestionTwoObj";
@@ -13,6 +14,9 @@ export interface UserObj {
 	questionTwoTEF: TEFObjType;
 	questionThreeObj: QuestionThreeObj;
 	questionThreeTEF: TEFObjType;
+	questionFourObj: QuestionFourObj;
+	questionFourTEF: TEFObjType;
+	questionFiveTEF: TEFObjType;
 }
 
 export const cloneUserObj = (existingUserObj: UserObj): UserObj => {
