@@ -3,6 +3,7 @@ import { Action, ActionEnum } from "../reducers/TEFCorrectionReducer";
 import { PRCorrectionsType } from "../objects/TargetEngagementFormObj";
 import { memo } from "react";
 import equal from "fast-deep-equal";
+import TEFPRGraph from "./TEFPRGraph";
 
 const TEFPRCorrections = (props: {
 	PRCorrections: PRCorrectionsType;
@@ -60,7 +61,10 @@ const TEFPRCorrections = (props: {
 			</div>
 
 			{/*row 36*/}
-			<div className="col-span-20 row-span-6 border-solid border h-auto"></div>
+			{/*use classname flex so that TEFPRGraph can fill entire blank space*/}
+			<div className="col-span-20 row-span-6 border-solid border h-auto flex">
+				<TEFPRGraph/>
+			</div>
 			<div className="col-span-2 border-solid border h-auto bg-stone-400">
 				<Text ta="center">S/N</Text>
 			</div>

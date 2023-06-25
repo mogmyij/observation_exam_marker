@@ -158,7 +158,7 @@ const TEFAdjustments = (props: {
 						timingFunction: "ease",
 					}}
 					variant="unstyled"
-					className="inline-block"
+					className="inline-block" 
 					clearable
 					onChange={(e) =>
 						onSelectElementFormUpdate(
