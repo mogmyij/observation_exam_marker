@@ -54,7 +54,7 @@ const QuestionFour = (props: {
 	};
 
 	return (
-		<div className="w-2/3 m-auto bg-white p-8">
+		<div className="w-3/4 m-auto bg-white p-8">
 			<div className="flex-col">
 				<h2 className="border-solid border-b border-x-0 border-t-0">
 					Question 4 (20 Marks):

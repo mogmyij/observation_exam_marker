@@ -63,7 +63,10 @@ const TEFPRCorrections = (props: {
 			{/*row 36*/}
 			{/*use classname flex so that TEFPRGraph can fill entire blank space*/}
 			<div className="col-span-20 row-span-6 border-solid border h-auto flex">
-				<TEFPRGraph/>
+				<TEFPRGraph
+					PRCorrections={props.PRCorrections}
+					TEFObjDispatcher={props.TEFObjDispatcher}
+				/>
 			</div>
 			<div className="col-span-2 border-solid border h-auto bg-stone-400">
 				<Text ta="center">S/N</Text>

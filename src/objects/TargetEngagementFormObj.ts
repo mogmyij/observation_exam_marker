@@ -36,8 +36,14 @@ const AdjustmentRow: { [key: string]: any } = {
 };
 
 const PRCorrections: { [key: string]: any } = {
-	ActivationCodeword: "",
-	TargetCodeword: "",
+	PRRound1GraphLeftRight:"-10",
+	PRRound1GraphLongShort:"10",
+	PRRound2GraphLeftRight:"10",
+	PRRound2GraphLongShort:"10",
+	PRRound3GraphLeftRight:"-10",
+	PRRound3GraphLongShort:"-10",
+	PRRound4GraphLeftRight:"10",
+	PRRound4GraphLongShort:"-10",
 	PRRound1Left: "",
 	PRRound1Right: "",
 	PRRound1LongShort: "",
@@ -60,6 +66,8 @@ const PRCorrections: { [key: string]: any } = {
 	PRFinalOrdersAddDrop: "",
 	PRFinalOrdersAddDropAmmount: "",
 	PRRecordAsPoint: "",
+	ActivationCodeword: "",
+	TargetCodeword: "",
 };
 
 //object that will be populated with values from the form
