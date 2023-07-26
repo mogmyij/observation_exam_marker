@@ -1,5 +1,5 @@
 import React, { Dispatch } from "react";
-import { Action } from "../reducers/TEFCorrectionReducer";
+import { ActionEnum,Action } from "../reducers/TEFCorrectionReducer";
 import { PRCorrectionsType } from "../objects/TargetEngagementFormObj";
 import {
 	Chart as ChartJS,
@@ -102,40 +102,32 @@ const TEFPRGraph = (props: {
 				dragX: true,
 				round: 0,
 				showTooltip: true, // show the tooltip while dragging [default = true]
-				onDragStart: function (e: any, element: any) {
-					/*
-				  // e = event, element = datapoint that was dragged
-				  // you may use this callback to prohibit dragging certain datapoints
-				  // by returning false in this callback
-				  if (element.datasetIndex === 0 && element.index === 0) {
-					// this would prohibit dragging the first datapoint in the first
-					// dataset entirely
-					return false
-				  }
-				  */
-				},
-				onDrag: function (e: any, datasetIndex: any, index: any, value: any) {
-					/*     
-				  // you may control the range in which datapoints are allowed to be
-				  // dragged by returning `false` in this callback
-				  if (value < 0) return false // this only allows positive values
-				  if (datasetIndex === 0 && index === 0 && value > 20) return false 
-				  */
-				},
+				
 				onDragEnd: function (
 					e: any,
-					datasetIndex: any,
-					index: any,
+					datasetIndex: number,
+					index: number,
 					value: any
 				) {
-					// you may use this callback to store the final datapoint value
-					// (after dragging) in a database, or update other UI elements that
-					// dependent on it
-					console.log(PRGraphData.datasets[0].data[0]);
-					console.log(PRGraphData.datasets[0].data[1]);
-					console.log(PRGraphData.datasets[0].data[2]);
-					console.log(PRGraphData.datasets[0].data[3]);
-					console.log("test");
+					//create the key used to edit the long short and left right 
+					//adjustments on the graph
+					let PRRoundLeftRight=`PRRound${index+1}GraphLeftRight`
+					let PRRoundLongShort=`PRRound${index+1}GraphLongShort`
+					
+					//update the values of the PR using dispatcher
+					//value is an object with x and y keys
+					props.TEFObjDispatcher({
+						type: ActionEnum.updatePRCorrectionState,
+						name: PRRoundLeftRight,
+						payload: String(value.x),
+						rowNumber: null,
+					});
+					props.TEFObjDispatcher({
+						type: ActionEnum.updatePRCorrectionState,
+						name: PRRoundLongShort,
+						payload: String(value.y),
+						rowNumber: null,
+					});
 				},
 			},
 		},
