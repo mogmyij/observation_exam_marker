@@ -15,6 +15,11 @@ import { Text } from "@mantine/core";
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
+interface GraphCoordinates {
+	x: number;
+	y: number;
+}
+
 const TEFPRGraph = (props: {
 	PRCorrections: PRCorrectionsType;
 	TEFObjDispatcher: React.Dispatch<Action>;
@@ -33,19 +38,19 @@ const TEFPRGraph = (props: {
 	var pointStyleImage4 = new Image(30, 60);
 	pointStyleImage4.src = "PR_Round_4.png";
 	//initialise PR point data using values from the PR corrections
-	var point1 = {
+	var point1: GraphCoordinates = {
 		x: Number(props.PRCorrections["PRRound1GraphLeftRight"]),
 		y: Number(props.PRCorrections["PRRound1GraphLongShort"]),
 	};
-	var point2 = {
+	var point2: GraphCoordinates = {
 		x: Number(props.PRCorrections["PRRound2GraphLeftRight"]),
 		y: Number(props.PRCorrections["PRRound2GraphLongShort"]),
 	};
-	var point3 = {
+	var point3: GraphCoordinates = {
 		x: Number(props.PRCorrections["PRRound3GraphLeftRight"]),
 		y: Number(props.PRCorrections["PRRound3GraphLongShort"]),
 	};
-	var point4 = {
+	var point4: GraphCoordinates = {
 		x: Number(props.PRCorrections["PRRound4GraphLeftRight"]),
 		y: Number(props.PRCorrections["PRRound4GraphLongShort"]),
 	};
@@ -113,29 +118,29 @@ const TEFPRGraph = (props: {
 				dragX: true,
 				round: 0, //prevents any decimal places.
 				showTooltip: true, // show the tooltip while dragging [default = true]
-				
+
 				//snap the value to the nearest value of 5
 				magnet: {
-					to: (value: any) => {
-						let newX=Math.round(value.x/5)*5;
-						let newY=Math.round(value.y/5)*5;
-						value.x=newX;
-						value.y=newY;
+					to: (value: GraphCoordinates) => {
+						let newX = Math.round(value.x / 5) * 5;
+						let newY = Math.round(value.y / 5) * 5;
+						value.x = newX;
+						value.y = newY;
 						//prevent the value from being 30 because if its 30
 						//the icon cannot be seen and might leave users confused.
-						if (value.y>25) {
-							value.y=25
+						if (value.y > 25) {
+							value.y = 25;
 						}
 						return value;
 					},
 				},
-				
+
 				//update the state of the TEF when the user finishes dragging the icon
 				onDragEnd: function (
 					e: any,
 					datasetIndex: number,
 					index: number,
-					value: any
+					value: GraphCoordinates
 				) {
 					//create the key used to edit the long short and left right
 					//adjustments on the graph

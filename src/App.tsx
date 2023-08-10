@@ -15,6 +15,7 @@ import QuestionThree from "./components/examPaper/QuestionThree";
 import { QuestionFourObj } from "./objects/QuestionFourObj";
 import QuestionFour from "./components/examPaper/QuestionFour";
 import QuestionFive from "./components/examPaper/QuestionFive";
+import PageNotFound from "./components/PageNotFound";
 
 export class user {
 	name: string;
@@ -27,7 +28,7 @@ export class user {
 }
 
 function App() {
-	//states that store logged in user data und the test has started
+	//objects that store logged in user data und the test has started
 	let QuestionOneAns: QuestionOneObj = {
 		a1: "",
 		a2: "",
@@ -143,6 +144,12 @@ function App() {
 							) : (
 								<Navigate replace to={"/"} />
 							)
+						}
+					/>
+					<Route
+						path="*"
+						element={
+							<PageNotFound></PageNotFound>
 						}
 					/>
 				</Routes>

@@ -14,7 +14,7 @@ import { UserObj } from "../objects/UserObj";
 
 //returns true if string is alphanumeric
 function isAlphaNumeric(str: string): boolean {
-	const AlphaNumericRegex = new RegExp("^[a-zA-Z0-9]*$");
+	const AlphaNumericRegex = new RegExp("[a-zA-Z0-9 ]");
 	return AlphaNumericRegex.test(str);
 }
 
