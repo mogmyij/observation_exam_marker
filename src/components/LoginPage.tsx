@@ -54,8 +54,7 @@ function LoginPage(props: {
 		newUser.name = values.name.toUpperCase();
 		newUser.nric = values.nric.toUpperCase();
 		ResultsDatabase.addCadet(newUser).then((data) => {
-			newUser.id=data.id
-			props.setUser(newUser);
+			props.setUser(data);
 			props.setTestHasBegun(true);
 			navigate("/q1");
 		});
