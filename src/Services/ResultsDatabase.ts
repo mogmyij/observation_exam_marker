@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UserObj } from "../objects/UserObj";
 
-const baseURL = "/api/users";
+const baseURL = "http://localhost:3001/api/users";
 
 const getCadet = (id:number) => {
 	return axios
