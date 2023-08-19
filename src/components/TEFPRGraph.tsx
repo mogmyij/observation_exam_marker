@@ -15,6 +15,7 @@ import { Text } from "@mantine/core";
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
+//declare an interface for cartesian coordinates
 interface GraphCoordinates {
 	x: number;
 	y: number;
