@@ -78,7 +78,7 @@ const QuestionFour = (props: {
 							<div className="flex py-4 w-full">
 								<Text className="inline-block flex self-start">15:</Text>
 								<Textarea
-									{...form.getInputProps("c1")}
+									{...form.getInputProps("b1")}
 									className="inline-block w-full"
 								></Textarea>
 								<Text className="inline-block">(2m)</Text>
